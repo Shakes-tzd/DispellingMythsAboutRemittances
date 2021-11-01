@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSS Named Colors</title>
+    <script src="https://unpkg.com/d3@5.11.0/dist/d3.min.js"></script>
+    <style>
+        pre{
+            font-size: 7em;
+        }
+        body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+    <script src="https://unpkg.com/react@16.9.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.9.0/umd/react-dom.production.min.js"></script>
+  </head>
+  <body>
+    <pre id="message-container"></pre>
+    <script>
+      
+      const fetchText = async (url)=>{
+        const response = await fetch(url);
+        return text = await response.text();
+      };
+      const csvUrl = 'https://gist.githubusercontent.com/Shakes-tzd/d906541463fef7deb877f9553d9d3a72/raw/cssNamedColors.csv'
+      d3.csv(csvUrl).then(data =>{
+        let message = '';
+        message = message + data.length + ' rows \n';
+        message = message + data.columns.length +' columns \n';
+        message = message + Math.round(d3.csvFormat(data).length/1024)+' kb \n';
+        document.getElementById('message-container').textContent =message;
+      });
+//       //fetch(url).then(response => {
+//       //  response.text().then(text =>{
+//        //   console.log(text)})
+//     //  ;
+//    //   });
+    </script>
+    
+  </body>
+</html>
+
