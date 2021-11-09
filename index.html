@@ -1,43 +1,36 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>CSS Named Colors</title>
-    <script src="https://unpkg.com/d3@5.11.0/dist/d3.min.js"></script>
-    <style>
-        pre{
-            font-size: 7em;
-        }
-        body {
-        margin: 0;
-        overflow: hidden;
-      }
-    </style>
-    <script src="https://unpkg.com/react@16.9.0/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16.9.0/umd/react-dom.production.min.js"></script>
-  </head>
-  <body>
-    <pre id="message-container"></pre>
-    <script>
-      
-      const fetchText = async (url)=>{
-        const response = await fetch(url);
-        return text = await response.text();
-      };
-      const csvUrl = 'https://gist.githubusercontent.com/Shakes-tzd/d906541463fef7deb877f9553d9d3a72/raw/cssNamedColors.csv'
-      d3.csv(csvUrl).then(data =>{
-        let message = '';
-        message = message + data.length + ' rows \n';
-        message = message + data.columns.length +' columns \n';
-        message = message + Math.round(d3.csvFormat(data).length/1024)+' kb \n';
-        document.getElementById('message-container').textContent =message;
-      });
-//       //fetch(url).then(response => {
-//       //  response.text().then(text =>{
-//        //   console.log(text)})
-//     //  ;
-//    //   });
-    </script>
-    
-  </body>
-</html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
+<body>
+  <div id="graphic">
+  <div class="container">
+    <div id="div1">
+      <h2>On <strong>July 27, 2017</strong> there were <strong>20</strong> people attending the Data Visualization meetup.</h2>
+    </div>
+    <div id="div2">
+      <h2>Out of those <strong>20</strong> there were <strong>12</strong> people who attended.</h2>
+      <p></p>
+    </div>
+    <div id="div4">
+      <h2><strong>5</strong> out of <strong>12</strong> people had iphones. The other <strong>7</strong> had android devices</h2>
+    </div>
+    <div id="div6">
+      <h2>Out of those <strong>12</strong> attendees only <strong>3</strong> people were San Diego natives. <br><br>The age group for the attendees ranged between 25 and 65.</h2>
+    </div>
+    
+  </div>
+
+
+  <!-- svg -->
+  <div class="fixed"><svg id="viz" width="100%" height="100%"></svg></div>
+
+</div><!-- /graphic -->
+  
+  
+<script src="index.js"></script>
+</body>
