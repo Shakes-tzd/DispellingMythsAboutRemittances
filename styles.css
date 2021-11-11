@@ -71,5 +71,6 @@ strong {
   font-family: "Merriweather";
   font-size: 1.1em;
   max-width: 400px;
+  min-width: 200px;
   z-index: 100;
 }

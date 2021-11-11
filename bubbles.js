@@ -3,6 +3,7 @@
     const width =700;
     const height =500;
     const categories =['Guatemala', 'Honduras', 'El-Salvador']
+    const colors = ['#ffcc00','#baf1a1','#cc0066']
         
     //create SVG element 
     const svg =d3.select("#chart")
@@ -16,7 +17,14 @@
                         .append('div')
                         .attr("id","tooltip")
 
-    const colors = ['#ffcc00','#baf1a1','#cc0066']
+    const legend = d3.select('#legend')
+    .data(categories)
+    .enter().append("circle")
+    .attr("id",function(d){
+        console.log(d)
+    })
+    .style('visibility','visible')
+    .style('display', 'inline-block')
 
     function createScales(){
         categoryColorScale = d3.scaleOrdinal(categories, colors)}
@@ -28,21 +36,16 @@
         if(d.Country ==='GTN'){
             return 100
         }else if (d.Country ==='HND') {
-            return 250
-            //  block of code to be executed if the condition1 is false and condition2 is true
+            return 250//  block of code to be executed if the condition1 is false and condition2 is true
           } else {
-            return 430
-            //  block of code to be executed if the condition1 false and condition2 is false
-        }
-    }).strength(0.2)
+            return 430 //  block of code to be executed if the condition1 false and condition2 is false
+        }}).strength(0.2)
 
     const forceXstart = d3.forceX(function(d){
-        return width/2
-    }).strength(0.05)
+        return width/2 }).strength(0.05)
 
     const forceCollide = d3.forceCollide(function(d){
-        return radiusScale(d.Total)
-    })
+        return radiusScale(d.Total)})
 
     // set up force simulation
     const simulation = d3.forceSimulation()
@@ -50,6 +53,7 @@
     .force("y",d3.forceY(height/2).strength(0.05))
     .force("collide",forceCollide)
 
+    // scroll function 
     function scroll(n, offset, func1, func2){
         return new Waypoint({
           element: document.getElementById(n),
@@ -62,7 +66,7 @@
       };
       //const categoryColorScale = 
       
-
+// function for drawing the circles
     function ready (datapoints){
         const circles = svg.selectAll(".Household")
         .data(datapoints)
@@ -78,13 +82,10 @@
             if(d.Country ==='GTN'){
                 return '#ffcc00'
             }else if (d.Country ==='HND') {
-                return '#baf1a1'
-                //  block of code to be executed if the condition1 is false and condition2 is true
+                return '#baf1a1'//  block of code to be executed if the condition1 is false and condition2 is true
               } else {
-                return '#cc0066'
-                //  block of code to be executed if the condition1 false and condition2 is false
-            }
-        })
+                return '#cc0066'//  block of code to be executed if the condition1 false and condition2 is false
+            }})
         
         svg.selectAll('circle')
         .on('mouseover', mouseOver)
