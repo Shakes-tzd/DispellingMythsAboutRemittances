@@ -1,36 +1,52 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://unpkg.com/d3@7.1.1/dist/d3.min.js"></script>
+  <!--<script src="https://d3js.org/d3.v3.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/d3-force@3"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+  
   <div id="graphic">
+  <div id="tooltip"></div>
   <div class="container">
     <div id="div1">
-      <h2>On <strong>July 27, 2017</strong> there were <strong>20</strong> people attending the Data Visualization meetup.</h2>
+      <h2>Households in the Northern Triangle spend <strong>50% </strong> of the remittances they receive on <strong>Food</strong> </h2>
+      <svg id = 'legend' width = '200px' height = '300px'></svg>
     </div>
     <div id="div2">
-      <h2>Out of those <strong>20</strong> there were <strong>12</strong> people who attended.</h2>
+      <h2>Hondurans <strong>spend</strong> more on  <strong>food</strong> than their counter parts in Guatemala and El Salvador.</h2>
       <p></p>
     </div>
     <div id="div4">
-      <h2><strong>5</strong> out of <strong>12</strong> people had iphones. The other <strong>7</strong> had android devices</h2>
+      <h2><strong>Rural</strong> areas spend  <strong>more</strong> on food than those who live in <strong>urban</strong> areas</h2>
     </div>
     <div id="div6">
-      <h2>Out of those <strong>12</strong> attendees only <strong>3</strong> people were San Diego natives. <br><br>The age group for the attendees ranged between 25 and 65.</h2>
+      <h2>Remittances also cover other <strong>basic </strong> needs such as <strong>housing </strong> and <strong>clothing </strong> .</h2>
     </div>
     
   </div>
 
 
   <!-- svg -->
-  <div class="fixed"><svg id="viz" width="100%" height="100%"></svg></div>
+  <div id="chart" class="fixed" width="100%" height="100%">
+    <!--<button id='country'>Country Split</button>
+    <button id='combine'>Combine</button>
+    <button id='local'>Locality</button>
+    -->
+    
+    <!--<svg id="viz" width="100%" height="100%"></svg>
+    -->
+  </div>
 
 </div><!-- /graphic -->
   
-  
+<script src="bubbles.js"></script>
+<!--<
 <script src="index.js"></script>
+-->
 </body>
