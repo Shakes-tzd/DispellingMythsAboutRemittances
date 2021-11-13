@@ -74,3 +74,19 @@ strong {
   min-width: 200px;
   z-index: 100;
 }
+
+.legend-styling {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+}
+.location_label {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+}
+.country_label {
+  font-size: 1em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+}
