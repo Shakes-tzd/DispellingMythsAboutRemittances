@@ -1,3 +1,4 @@
+
 let box = document.querySelector('.holder');
 let width = box.clientWidth*0.7;
 let height = box.clientWidth*0.7;
@@ -85,6 +86,7 @@ const forceCollideFood = d3.forceCollide((d)=> radiusScale(d.Food)+5).strength(0
 const forceCollide = d3.forceCollide(rad+2).strength(0.5)//(d)=> radiusScale(d.Food)+2
 center_force = d3.forceCenter(width / 2, height / 2.25);
     // set up force simulation
+    
 const simulation = d3.forceSimulation()
                         .force("x",forceXstart)
                         .force("y",forceYstart) // 
@@ -134,6 +136,7 @@ let ready= (datapoints)=>{
                     .force("y",forceYsep)
                     .alphaTarget(0.25)
                     .restart()
+                    
                     //.force("charge", d3.forceManyBody().strength(-20))             
         d3.selectAll('.location_label').style('visibility','visible')
         };
@@ -233,11 +236,11 @@ scroller
   .setup({
     step: ".step",})
   .onStepEnter((response) => {
-    if(response.index ===1){return food_amount();}
-    else if (response.index ===2) {return utilities();} 
-    else if (response.index ===4) {return sepLocation();} 
-    else if (response.index==5){return sepCountry()}
-    else {return combine(); }})
+    if(response.index ===1){return sepCountry();}
+    else if (response.index ===2) {return sepLocation() ;} 
+    else if (response.index ===4) {return food_amount();} 
+    else if (response.index==5){return utilities()}
+    })
     
   .onStepExit((response) => {
     // { element, index, direction }
