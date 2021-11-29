@@ -3,9 +3,9 @@ let box = document.querySelector('.holder');
 let width = box.clientWidth*0.7;
 let height = box.clientWidth*0.7;
 const rad = 10;
-
+const first_color = '#E7B36B'
 const categories =['Guatemala', 'Honduras', 'El-Salvador']
-const colors = {GT:'#ffcc00',HND:'#baf1a1',SLV:'#0096FF'}
+const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
 
 function createScales(){
     categoryColorScale = d3.scaleOrdinal(categories, colors)}
@@ -112,7 +112,7 @@ let ready= (datapoints)=>{
                             .attr("class","need")
                             .attr("id",(d)=>d.Household)
                             .attr("r",rad) //(d)=>radiusScale(d.Food)
-                            .attr("fill",'brown')//(d)=>colors[d.country]'
+                            .attr("fill",first_color)//(d)=>colors[d.country]'
                             
     function ticked() {circles.attr("cx", function(d) {return d.x  })
                       .attr("cy", function(d) {return d.y  });}
@@ -251,21 +251,4 @@ window.addEventListener("resize", scroller.resize);
 } 
 
 // calling all of the Html classes
-const img2 = document.querySelector('.img2')
-
-// horizontal movement
-window.addEventListener('keydown',(e)=>{
-	if(e.key == 'h'){
-		window.addEventListener('mousemove',(e)=>{
-			img2.style.left = e.clientX +'px'
-			img2.style.top = 0 +'px'
-		})
-	}
-})
-
-window.addEventListener('mousemove',(e)=>{
-	img2.style.left = e.clientX + 'px'
-	img2.scroll.top = 0 + 'px'
-})
-
 
