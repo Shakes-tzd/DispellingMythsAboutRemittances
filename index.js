@@ -1,6 +1,6 @@
-// let box = document.querySelector('.chart_container');
-// let width = box.clientWidth;
-// let height = box.clientHeight;
+let box = document.querySelector('.chart_container');
+let width = box.clientWidth;
+let height = box.clientHeight;
 
 const rad = 8;// radius of bubbles
 const first_color = '#E7B36B' //first color of bubbles
@@ -17,11 +17,10 @@ const categories =['Guatemala', 'Honduras', 'El-Salvador']
 const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
 
 const svg =d3.select("svg")
-              .classed("svg-container", true)
-              .attr("preserveAspectRatio", "xMinYMin meet")
-              .classed("svg-content-responsive", true)
+              .attr("viewBox", [0, 0, width, height])
+              .attr("width", width)
+              .attr("height", height)
                 .append("g")
-                .attr("transform","translate(0,10)")
                 .attr('id',"bubbles")
 
 
@@ -39,21 +38,21 @@ const tooldiv = d3.select('.container-1')
 
  // set up simulation forces 
 
- const chartDiv = document.getElementById("chart");                      
+ const chartDiv = document.getElementById("chart_div");                      
 
 d3.csv("MostBasicNeeds.csv", d3.autoType).then((data)=>{
     dataset = data
     ready(data)
-    window.addEventListener("resize", ready)
+    //window.addEventListener("resize", ready)
   });
 // function for drawing the circles
 let ready= (datapoints)=>{
-  let width = chartDiv.clientWidth;
-  let height = chartDiv.clientHeight/1.5;
+  // let width = chartDiv.clientWidth;
+  // let height = chartDiv.clientHeight/1.5;
 
-  svg.attr("viewBox", [0, 0, width, height])
-      .attr("width", width)
-      .attr("height", height);
+  // svg.attr("viewBox", [0, 0, width, height])
+  //     .attr("width", width)
+  //     .attr("height", height);
 
 const forceXc = d3.forceX((d)=>{
     if(d.country ==='GT'){return width-0.6*width}

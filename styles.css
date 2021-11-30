@@ -197,7 +197,7 @@ h3 {
 
 .label {
   position: absolute;
-  font-size: 3vmin;
+  font-size: 2vmin;
   font-family: century-gothic, sans-serif;
   z-index: 150;
 }
