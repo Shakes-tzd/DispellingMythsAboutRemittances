@@ -1,89 +1,31 @@
 
-let box = document.querySelector('.holder');
-let width = box.clientWidth*0.7;
-let height = box.clientWidth*0.7;
-const rad = 10;
-const first_color = '#E7B36B'
-const categories =['Guatemala', 'Honduras', 'El-Salvador']
-const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
+
 
 function createScales(){
     categoryColorScale = d3.scaleOrdinal(categories, colors)}
     const radiusScale = d3.scaleSqrt().domain([0,100]).range([5,20])
     
 
-const svg =d3.select("svg")
-              .attr('width',width)
-              .attr('height',height)
-              .attr("viewBox", [0, 0, width, height])
-                .append("g")
-                .attr("transform","translate(0,0)")
+
+                
 
 const tooldiv = d3.select('.holder')
                     .append('div')
                     .attr("id","tooltip")
 
-const rural_label = svg.append("g")
-        .append('text')
-        .attr('class','location_label')
-        .attr('id','rural_label')
-        .attr('x',5)
-        .attr('y',height-height*0.7)
-        .text("Rural")
-        .style('visibility','hidden') 
-
-const urban_label = svg.append("g")
-        .append('text')
-        .attr('class','location_label')
-        .attr('id','urban_label')
-        .attr('x',5)
-        .attr('y',height-height*0.4)
-        .text("Urban")
-        .style('visibility','hidden') 
-
-const country_label = svg.append("g")
-        .selectAll("text")                    
-        .data(categories)
-        .enter()
-            .append("text")
-            .attr('class','country_label')
-            .attr("x",(d,i)=>{
-              if(i ===0){return width-0.8*width}
-              else if (i===1) {return width-0.6*width} 
-              else {return width-0.4*width }})
-            .attr("y",20)
-            .text((d,i)=>{
-              if(i ===0){return categories[i]}
-              else if (i===1) {return categories[i]} 
-              else { return categories[i]}})
-        .style('visibility','hidden') 
-        
- let radius = (d)=> radiusScale(d.Food)
-
-
  // set up simulation forces 
-const forceYsep = d3.forceY((d)=>{
-                    if(d.rural_urban ===1){return height-height*0.6;} 
-                    else {return height-height*0.5}}).strength(0.5)
-const forceYsepFood = d3.forceY((d)=>{
-                    if(d.Food >0){return height-height*0.6;} 
-                    else {return height-height*0.55}}).strength(0.9)
-
-const forceXsepUtilities = d3.forceX((d)=>{
-                      if(d.Utilities >0){return width-0.6*width} 
-                      else {return width-0.4*width}}).strength(0.9)
 
 const forceXc = d3.forceX((d)=>{
                 if(d.country ==='GT'){return width-0.6*width}
                 else if (d.country ==='HND') {return width-0.5*width} 
-                else {return width-0.4*width }}).strength(0.5)
+                else {return width-0.4*width }}).strength(0.85)
                 
 
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.5)
 const forceYstart = d3.forceY((d)=>height/3 ).strength(0.5)
 
-const forceCollideFood = d3.forceCollide((d)=> radiusScale(d.Food)+5).strength(0.9)
-const forceCollide = d3.forceCollide(rad+2).strength(0.5)//(d)=> radiusScale(d.Food)+2
+
+const forceCollide = d3.forceCollide(rad+5).strength(0.5)//(d)=> radiusScale(d.Food)+2
 center_force = d3.forceCenter(width / 2, height / 2.25);
     // set up force simulation
     
@@ -92,9 +34,9 @@ const simulation = d3.forceSimulation()
                         .force("y",forceYstart) // 
                         .force("center_force", center_force)
                         .force("collide",forceCollide)
-                        .force("charge", d3.forceManyBody().strength(-80))
-                        .alphaDecay(0.02)
-                        .velocityDecay(0.8)
+                        .force("charge", d3.forceManyBody().strength(-60))
+                        .alphaDecay(0.03)
+                        .velocityDecay(0.75)
                         
                         
 
@@ -122,69 +64,128 @@ let ready= (datapoints)=>{
     const sepCountry = function (){simulation
                     .force("x",forceXc.strength(0.5))
                     .force("y",forceYstart)
-                    .alphaTarget(0.25)
+                    .force("charge", d3.forceManyBody().strength(-60))
+                    .alphaTarget(0.2)
                     .restart()
                     //.force("charge", d3.forceManyBody().strength(-20))
-          d3.selectAll('.country_label').style('visibility','visible')
+          d3.selectAll('#country_label').style('visibility','visible')
           circles.transition()
                   .attr("fill",(d)=>colors[d.country])
-                  .duration(2000)
+                  .duration(1000)
     };
+    const CountriesExit = ()=>{
+      d3.selectAll('#country_label').style('visibility','hidden')
+          circles.transition()
+                  .attr("fill",first_color)
+                  .duration(1000)
+                  combine()
+    }
     // define function to separate locations
     const sepLocation = ()=>{
+      const forceYsepLocation = d3.forceY((d)=>{
+        if(d.rural_urban ===1){return height-height*0.6;} 
+        else {return height-height*0.5}}).strength(0.8)
+
                     simulation
-                    .force("y",forceYsep)
-                    .alphaTarget(0.25)
+                    .force("y",forceYsepLocation)
+                    .force("charge", d3.forceManyBody().strength(-60))
+                    .alphaTarget(0.2)
                     .restart()
                     
                     //.force("charge", d3.forceManyBody().strength(-20))             
-        d3.selectAll('.location_label').style('visibility','visible')
+        d3.selectAll('#location_label').style('visibility','visible')
         };
+    const LocationExit = ()=>{
+      d3.selectAll('#location_label').style('visibility','hidden')
+            combine()
+        }
         
     // define function to combine
     const combine =()=>{
-                    simulation
+            simulation
                     .force("x",forceXstart)
                     .force("y",forceYstart)
-                    .alphaTarget(0.25)
+                    .alphaTarget(0.2)
                     .restart()
                     //.force("charge", d3.forceManyBody().strength(-20))
                     
-        d3.selectAll('.location_label').style('visibility','hidden')
-        d3.selectAll('.country_label').style('visibility','hidden')
+        d3.selectAll('#location_label').style('visibility','hidden')
+        d3.selectAll('#country_label').style('visibility','hidden')
         //d3.select('#urban_label').style('visibility','hidden') 
-        circles.transition()
-                  .attr("fill",'brown')
-                  .duration(2000)  
+        circles.transition().attr("fill",first_color)  
     };
 
 const food_amount = ()=>{
+  const forceYsepFood = d3.forceY((d)=>{
+    if(d.Food >0){return height-height*0.6;} 
+    else {return height-height*0.55}}).strength(0.8)
+
   simulation.force("y",forceYsepFood)
-            .force("charge", d3.forceManyBody().strength(-110)) //.force("collide",forceCollideFood) 
+            .force("center_force",center_force)
+            .alphaTarget(0.2)
+                .restart()
+  
+  d3.selectAll('#food_label').style('visibility','visible')         
   circles.transition()
             .attr("fill",(d)=>d.Food>0?'#088F8F':'#088F8F50')
-            .duration(500) //.attr("r",(d)=>radiusScale(d.Food))
-}
-const education = ()=>{
-  simulation.force("y",forceYsepFood)
+            .duration(500) }
+
+const foodExit = ()=>{
+  d3.selectAll('#food_label').style('visibility','hidden')
+        combine()}
+
+
+const utilities = ()=>{
+  const forceXsepUtilities = d3.forceX((d)=>{
+    if(d.Utilities >0){return width-0.6*width} 
+    else {return width-0.4*width}}).strength(0.9)
+
+  simulation.force("x",forceXsepUtilities)
+                .alphaTarget(0.2)
+                .restart()
+                //.force("charge", d3.forceManyBody().strength(-80))
   circles.transition()
-            .attr("fill",(d)=>d.Food>0?'#088F8F':'#FF5733')
+            .attr("fill",(d)=>d.Utilities>0?'#cc33ff':'#cc33ff50')
+            .duration(500)
+d3.selectAll('#utilities_label').style('visibility','visible')
+}
+const utilitiesExit = ()=>{
+  d3.selectAll('#utilities_label').style('visibility','hidden')
+        combine()}
+
+const health = ()=>{
+  const forceYsepHealth = d3.forceY((d)=>{
+    if(d.Health >0){return height-height*0.6;} 
+    else {return height-height*0.55}}).strength(0.7)
+    simulation.force("y",forceYsepHealth).alphaTarget(0.2)
+    .restart()
+    d3.selectAll('#Health_label').style('visibility','visible')
+  
+    circles.transition()
+            .attr("fill",(d)=>d.Health>0?'#ff6600':'#ff660050')
+            .duration(500)
+}
+const healthExit = ()=>{
+  d3.selectAll('#Health_label').style('visibility','hidden')
+        combine()}
+
+const education = ()=>{
+  const forceXsepEducation = d3.forceY((d)=>{
+    if(d.Education >0){return width-0.6*width} 
+    else {return width-0.4*width}}).strength(0.8)
+
+  simulation.force("y",forceXsepEducation).alphaTarget(0.2)
+  .restart()
+
+  d3.selectAll('#Education_label').style('visibility','visible')
+  circles.transition()
+            .attr("fill",(d)=>d.Education>0?'#0000ff':'#0000ff50')
              //(d)=>radiusScale(d.Food)
             .duration(500)
 }
-const utilities = ()=>{
-  simulation.force("x",forceXsepUtilities)
-                .force("charge", d3.forceManyBody().strength(-110))
-  circles.transition()
-            .attr("fill",(d)=>d.Utilities>0?'#E07A5F':'#E07A5F50')
-            .duration(300)
-}
-const health = ()=>{
-  
-  circles.transition()
-            .attr("fill",(d)=>d.Food>0?'#088F8F':'#FF5733')
-            .duration(500)
-}
+const educationExit = ()=>{
+  d3.selectAll('#Education_label').style('visibility','hidden')
+        combine()}
 // Set up tool tip effect on Mouse enter and exit
 svg.selectAll('circle')
 .on('mouseover', mouseOver)
@@ -197,16 +198,23 @@ function mouseOver(event, d){
     .attr('stroke-width', 5)
     .attr('stroke', 'black')
 
+    const RemitToIncomeRatio =(d.monthly_remesa_amount)/(d.avg_income_usd) 
+    
+    let RemitPCT = (RemitToIncomeRatio<=1)?Math.round(RemitToIncomeRatio*100):Math.round((RemitToIncomeRatio-1)*100)
+
+    
+
     d3.select(event.target).style("cursor", "pointer");
 
     tooldiv.style('left', (event.pageX )+ 'px')
     .style('top', ( event.pageY) + 'px')
     .style('visibility','visible')
     .style('display', 'inline-block')
-    .html(`<strong>Country:</strong> ${d.country}
-        <br> <strong>Location:</strong> ${d.rural_urban ==1? 'Rural' :'Urban'}
-        <br> <strong>Monthly Remittance Income:</strong> ${Math.round(d.monthly_remesa_amount* 100) / 100} 
-        <br> <strong>Household Income:</strong> ${Math.round(d.avg_income_usd* 100) / 100}
+    .html(`<b>Country:</b> ${d.country}
+        <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
+        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
+        <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
+        <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittance are '+RemitPCT+'% more than the Household Income'}
         `)
         }
 
@@ -230,19 +238,48 @@ function mouseOut(event, d){
      // instantiate the scrollama
 const scroller = scrollama();
 
-const callbacks =[sepCountry,sepLocation]
+const EnterCallbacks =[combine,sepCountry,
+  sepLocation,
+  food_amount,
+  utilities,
+  health,
+  education
+]
+const ExitCallbacks =[combine,
+  CountriesExit,
+  LocationExit,
+  foodExit,
+  utilitiesExit,
+  healthExit,
+  educationExit
+]
 // setup the instance, pass callback functions
+const steps = d3.selectAll(".step")
 scroller
   .setup({
     step: ".step",})
   .onStepEnter((response) => {
-    if(response.index ===1){return sepCountry();}
-    else if (response.index ===2) {return sepLocation() ;} 
-    else if (response.index ===4) {return food_amount();} 
-    else if (response.index==5){return utilities()}
+    //console.log( 'enter: ')
+    //console.log(response)
+    steps.style("opacity",0.1)
+    d3.select(response.element).style("opacity",1)
+    if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
+    
+    // if(response.index ===1){return sepCountry();}
+    // else if (response.index ===2) {return sepLocation() ;} 
+    // else if (response.index ===4) {return food_amount();} 
+    // else if (response.index==5){return utilities()}
+    // else if (response.index==6){return utilities()}
     })
     
   .onStepExit((response) => {
+    if (response.index<=ExitCallbacks.length-1 ){ExitCallbacks[response.index]()}
+    //console.log('exit: ')
+    //console.log(response)
+    // if(response.index ===1){return CountriesExit();}
+    // else if(response.index ===2){return LocationExit();}
+    // else if(response.index ===4) {return foodExit();}
+    // else if(response.index ===5) {return utilitiesExit();}
     // { element, index, direction }
   });
 
