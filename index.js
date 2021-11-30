@@ -338,7 +338,7 @@ function mouseOver(event, d){
         <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
         <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
         <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
-        <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittance are '+RemitPCT+'% more than the Household Income'}
+        <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittances are '+RemitPCT+'% more than the Household Income'}
         `)
         }
 
