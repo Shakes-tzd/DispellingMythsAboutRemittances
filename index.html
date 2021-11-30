@@ -23,21 +23,19 @@
         </div>
 
 
-</header>
-<div class="row">   
-    <section>
-        
-        <div class="holder">
+    </header>
+    
+        <div class="container-1">   
             <div class="chart_container">
-            <svg id="chart"></svg>
+                <svg id="chart"></svg>
             </div>
             <div class="steps">
                 <div class="step"><strong>14%</strong>  of the 5000 households surveyed in the World food program study gave consent about receiving remittances.
                 <br>
                 <br>     
                 These <strong>709 </strong> households are represented by the bubbles in the figure on the left. Each bubble represents a household. 
-                 <br>
-                 <br>    
+                    <br>
+                    <br>    
                 <strong>Hover</strong> over the bubbles to discover information about the income of a household and the remittances they receive.
                 <br> 
                 <br>
@@ -77,40 +75,40 @@
                 <div class="step">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit exercitationem, officiis deserunt totam pariatur incidunt voluptatum, modi quas sunt vero vitae. Illum, voluptatibus. Eos a corrupti odio reprehenderit at nulla!</div>
                 <div class="step">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit exercitationem, officiis deserunt totam pariatur incidunt voluptatum, modi quas sunt vero vitae. Illum, voluptatibus. Eos a corrupti odio reprehenderit at nulla!</div>
                 <div class="step">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit exercitationem, officiis deserunt totam pariatur incidunt voluptatum, modi quas sunt vero vitae. Illum, voluptatibus. Eos a corrupti odio reprehenderit at nulla!</div>
+            
+            
+                <h2>The End</h2>
+                <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore aspernatur at ducimus ratione nulla perferendis unde libero natus beatae porro similique delectus, ea temporibus voluptatem voluptates sapiente error esse culpa!
+                </div>
+                <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus earum esse, odit non quidem suscipit, cum minima voluptas vero facere iusto maxime accusantium impedit, sint nesciunt magnam consequuntur voluptate recusandae.</div>
             </div>
+    
         </div>
-    </section>
-    <section>
-        <h2>The End</h2>
-        <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore aspernatur at ducimus ratione nulla perferendis unde libero natus beatae porro similique delectus, ea temporibus voluptatem voluptates sapiente error esse culpa!
-        </div>
-        <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus earum esse, odit non quidem suscipit, cum minima voluptas vero facere iusto maxime accusantium impedit, sint nesciunt magnam consequuntur voluptate recusandae.</div>
-    </section>
-</div>
-<script src="https://unpkg.com/d3@7.1.1/dist/d3.min.js"></script>
-<script src="https://unpkg.com/intersection-observer"></script>
-<script src="https://unpkg.com/scrollama"></script>
-<script src="index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
-<script>
-    const img2 = document.querySelector('.img2')
+   
+    <script src="https://unpkg.com/d3@7.1.1/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/intersection-observer"></script>
+    <script src="https://unpkg.com/scrollama"></script>
+    <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> 
+    <script>
+        const img2 = document.querySelector('.img2')
 
-// horizontal movement
-window.addEventListener('keydown',(e)=>{
-	if(e.key == 'h'){
-		window.addEventListener('mousemove',(e)=>{
-			img2.style.left = e.clientX +'px'
-			img2.style.top = 0 +'px'
-		})
-	}
-})
+    // horizontal movement
+    window.addEventListener('keydown',(e)=>{
+        if(e.key == 'h'){
+            window.addEventListener('mousemove',(e)=>{
+                img2.style.left = e.clientX +'px'
+                img2.style.top = 0 +'px'
+            })
+        }
+    })
 
-window.addEventListener('mousemove',(e)=>{
-	img2.style.left = e.clientX + 'px'
-	img2.scroll.top = 0 + 'px'
-})
+    window.addEventListener('mousemove',(e)=>{
+        img2.style.left = e.clientX + 'px'
+        img2.scroll.top = 0 + 'px'
+    })
 
 
-</script>
+    </script>
 </body>
 </html>

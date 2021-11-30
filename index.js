@@ -1,126 +1,29 @@
 let box = document.querySelector('.chart_container');
 let width = box.clientWidth;
 let height = box.clientHeight;
-const rad = 8;
-const first_color = '#E7B36B'
+
+const rad = 8;// radius of bubbles
+const first_color = '#E7B36B' //first color of bubbles
+
+const NeedColors={
+  'Food':['#088F8F','#088F8F50'],
+  'Utilities':['#cc33ff','#cc33ff50'],
+  'Health':['#ff6600','#ff660050'],
+  'Education':['#0000ff','#0000ff50'],
+  'Clothing':['#cc33ff','#cc33ff50']
+
+}
 const categories =['Guatemala', 'Honduras', 'El-Salvador']
 const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
 
 const svg =d3.select("svg")
-              .attr('width',width)
-              .attr('height',height)
+              .classed("svg-container", true)
+              .attr("preserveAspectRatio", "xMinYMin meet")
               .attr("viewBox", [0, 0, width, height])
+              .classed("svg-content-responsive", true)
                 .append("g")
+                .attr("transform","translate(0,10)")
                 .attr('id',"bubbles")
-
-
-const rural_label = d3.select('#chart').append("g")
-        .append('text')
-        .attr('class','label')
-        .attr('id','location_label')
-        .attr('x',width/2-20)
-        .attr('y',height-height*0.7)
-        .text("Rural")
-        .style('visibility','hidden') 
-
-const urban_label = d3.select('#chart').append("g")
-        .append('text')
-        .attr('class','label')
-        .attr('id','location_label')
-        .attr('x',width/2-20)
-        .attr('y',height-height*0.3)
-        .text("Urban")
-        .style('visibility','hidden') 
-
-const country_label = d3.select('#chart').append('g')
-        .selectAll("text")                    
-        .data(categories)
-        .enter()
-            .append("text")
-            .attr('class','label')
-            .attr('id','country_label')
-            .attr("x",(d,i)=>{
-              if(i ===0){return width-0.9*width}
-              else if (i===1) {return width-0.65*width} 
-              else {return width-0.4*width }})
-            .attr("y",height*0.40)
-            .text((d,i)=>{
-              if(i ===0){return categories[i]}
-              else if (i===1) {return categories[i]} 
-              else { return categories[i]}})
-            .style('visibility','hidden') 
-        
-const Food_label = d3.select('#chart').append("g")
-            .append('text')
-              .attr('class','label')
-              .attr('id','food_label')
-              .attr('x',width/2-100)
-              .attr('y',height-height*0.82)
-              .text("Food Purchase")
-              .style('visibility','hidden')
-
-const noFood_label = d3.select('#chart').append("g")
-            .append('text')
-            .attr('class','label')
-            .attr('id','food_label')
-            .attr('x',width/2-100)
-            .attr('y',height-height*0.15)
-            .text("No Food Purchase")
-            .style('visibility','hidden')
-
-const Utilities_label = d3.select('#chart').append("g")
-            .append('text')
-              .attr('class','label')
-              .attr('id','utilities_label')
-              .attr('x',width-0.85*width)
-              .attr('y',height-height*0.87)
-              .text("Utilities Purchase")
-              .style('visibility','hidden')
-
-const noUtilities_label = d3.select('#chart').append("g")
-            .append('text')
-            .attr('class','label')
-            .attr('id','utilities_label')
-            .attr('x',width/2-20)
-            .attr('y',height-height*0.87)
-            .text("No Utilities Purchase")
-            .style('visibility','hidden')
-
-const Education_label = d3.select('#chart').append("g")
-            .append('text')
-              .attr('class','label')
-              .attr('id','Education_label')
-              .attr('x',width-0.9*width)
-              .attr('y',height-height*0.75)
-              .text("Education Payment")
-              .style('visibility','hidden')
-
-const noEducation_label = d3.select('#chart').append("g")
-            .append('text')
-            .attr('class','label')
-            .attr('id','Education_label')
-            .attr('x',width-0.6*width)
-            .attr('y',height-height*0.75)
-            .text("No Education Payment")
-            .style('visibility','hidden')
-//Health Labels 
-const Health_label = d3.select('#chart').append("g")
-            .append('text')
-              .attr('class','label')
-              .attr('id','Health_label')
-              .attr('x',width-0.65*width)
-              .attr('y',height-height*0.83)
-              .text("Health Payment")
-              .style('visibility','hidden')
-
-const noHealth_label = d3.select('#chart').append("g")
-            .append('text')
-            .attr('class','label')
-            .attr('id','Health_label')
-            .attr('x',width-0.65*width)
-            .attr('y',height-height*0.27)
-            .text("No Health Payment")
-            .style('visibility','hidden')
 
 
 function createScales(){
@@ -131,44 +34,52 @@ function createScales(){
 
                 
 
-const tooldiv = d3.select('.holder')
+const tooldiv = d3.select('.container-1')
                     .append('div')
                     .attr("id","tooltip")
 
  // set up simulation forces 
 
+ const chartDiv = document.getElementById("chart");                      
+
+d3.csv("MostBasicNeeds.csv", d3.autoType).then((data)=>{
+    dataset = data
+    ready(data)
+    window.addEventListener("resize", ready)
+  });
+// function for drawing the circles
+let ready= (datapoints)=>{
+  let width = chartDiv.clientWidth;
+  let height = chartDiv.clientHeight/2.3;
+
+  svg.attr("width", width)
+      .attr("height", height);
+
 const forceXc = d3.forceX((d)=>{
-                if(d.country ==='GT'){return width-0.6*width}
-                else if (d.country ==='HND') {return width-0.5*width} 
-                else {return width-0.4*width }}).strength(0.85)
-                
+    if(d.country ==='GT'){return width-0.6*width}
+    else if (d.country ==='HND') {return width-0.5*width} 
+    else {return width-0.4*width }}).strength(0.85)
+    
 
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.5)
 const forceYstart = d3.forceY((d)=>height/2 ).strength(0.5)
-
+const forceYreset = d3.forceY((d)=>height/2 )
+const forceXreset = d3.forceX((d)=>width/2 )
 
 const forceCollide = d3.forceCollide(rad+5).strength(0.5)//(d)=> radiusScale(d.Food)+2
-center_force = d3.forceCenter(width / 2, height / 1.8);
-    // set up force simulation
-    
-const simulation = d3.forceSimulation()
-                        .force("x",forceXstart)
-                        .force("y",forceYstart) // 
-                        .force("center_force", center_force)
-                        .force("collide",forceCollide)
-                        .force("charge", d3.forceManyBody().strength(-60))
-                        .alphaDecay(0.03)
-                        .velocityDecay(0.75)
-                        
-                        
+const center_force = d3.forceCenter(width / 2, height / 2);
 
-   
-      //const categoryColorScale = 
-d3.csv("MostBasicNeeds.csv", d3.autoType).then((data)=>{
-    dataset = data
-    ready(data)});
-// function for drawing the circles
-let ready= (datapoints)=>{
+// set up force simulation    
+const simulation = d3.forceSimulation()
+            .force("x",forceXstart)
+            .force("y",forceYstart) // 
+            .force("center_force", center_force)
+            .force("collide",forceCollide)
+            .force("charge", d3.forceManyBody().strength(-60))
+            .alphaDecay(0.03)
+            .velocityDecay(0.75)
+
+
     const circles = svg.selectAll(".Household")
                         .data(datapoints)
                         .enter()
@@ -189,8 +100,28 @@ let ready= (datapoints)=>{
                     .force("charge", d3.forceManyBody().strength(-60))
                     .alphaTarget(0.2)
                     .restart()
-                    //.force("charge", d3.forceManyBody().strength(-20))
+          //add labels for countries         
+          const country_label = svg.append('g')
+          .selectAll("text")                    
+          .data(categories)
+          .enter()
+              .append("text")
+              .attr('class','label')
+              .attr('id','country_label')
+              .attr("x",(d,i)=>{
+                if(i ===0){return width-0.9*width}
+                else if (i===1) {return width-0.62*width} 
+                else {return width-0.4*width }})
+              .attr("y",height*0.40)
+              .text((d,i)=>{
+                if(i ===0){return categories[i]}
+                else if (i===1) {return categories[i]} 
+                else { return categories[i]}})
+              .style('visibility','hidden') 
+          //reveal labels for countries 
+
           d3.selectAll('#country_label').style('visibility','visible')
+          //changes the colors for the countries 
           circles.transition()
                   .attr("fill",(d)=>colors[d.country])
                   .duration(1000)
@@ -200,20 +131,37 @@ let ready= (datapoints)=>{
           circles.transition()
                   .attr("fill",first_color)
                   .duration(1000)
-                  combine()
-    }
-    // define function to separate locations
+                  combine()}
+    // define force to separate locations
     const sepLocation = ()=>{
       const forceYsepLocation = d3.forceY((d)=>{
         if(d.rural_urban ===1){return height-height*0.6;} 
         else {return height-height*0.5}}).strength(0.8)
 
-                    simulation
-                    .force("y",forceYsepLocation)
-                    .force("charge", d3.forceManyBody().strength(-60))
-                    .alphaTarget(0.2)
-                    .restart()
-                    
+    //change the simulation to move bubbles to the desired location
+        simulation
+        .force("y",forceYsepLocation)
+        .force("charge", d3.forceManyBody().strength(-60))
+        .alphaTarget(0.2)
+        .restart()
+      //add location labels 
+        const rural_label = svg.append("g")
+        .append('text')
+        .attr('class','label')
+        .attr('id','location_label')
+        .attr('x',width/2-20)
+        .attr('y',height-height*0.7)
+        .text("Rural")
+        .style('visibility','hidden') 
+
+        const urban_label = svg.append("g")
+        .append('text')
+        .attr('class','label')
+        .attr('id','location_label')
+        .attr('x',width/2-20)
+        .attr('y',height-height*0.3)
+        .text("Urban")
+        .style('visibility','hidden')            
                     //.force("charge", d3.forceManyBody().strength(-20))             
         d3.selectAll('#location_label').style('visibility','visible')
         };
@@ -227,8 +175,8 @@ let ready= (datapoints)=>{
             simulation
                     .force("x",forceXstart)
                     .force("y",forceYstart)
-                    .alphaTarget(0.2)
-                    .restart()
+                    .force("r", null)
+                    
                     //.force("charge", d3.forceManyBody().strength(-20))
                     
         d3.selectAll('#location_label').style('visibility','hidden')
@@ -240,16 +188,35 @@ let ready= (datapoints)=>{
 const food_amount = ()=>{
   const forceYsepFood = d3.forceY((d)=>{
     if(d.Food >0){return height-height*0.6;} 
-    else {return height-height*0.55}}).strength(0.9)
+    else {return height-height*0.5}}).strength(0.9)
 
   simulation.force("y",forceYsepFood)
+            .force("x",forceXreset.strength(0.6))
             .force("charge", d3.forceManyBody().strength(-90))
             .alphaTarget(0.2)
                 .restart()
   
+  const Food_label = svg.append("g")
+                .append('text')
+                  .attr('class','label')
+                  .attr('id','food_label')
+                  .attr('x',width/2-100)
+                  .attr('y',height-height*0.82)
+                  .text("Food Purchase")
+                  .style('visibility','hidden')
+    
+    const noFood_label = svg.append("g")
+                .append('text')
+                .attr('class','label')
+                .attr('id','food_label')
+                .attr('x',width/2-100)
+                .attr('y',height-height*0.15)
+                .text("No Food Purchase")
+                .style('visibility','hidden')
+  
   d3.selectAll('#food_label').style('visibility','visible')         
   circles.transition()
-            .attr("fill",(d)=>d.Food>0?'#088F8F':'#088F8F50')
+            .attr("fill",(d)=>d.Food>0?NeedColors.Food[0]:NeedColors.Food[1])
             .duration(500) }
 
 const foodExit = ()=>{
@@ -263,11 +230,30 @@ const utilities = ()=>{
     else {return width-0.4*width}}).strength(0.9)
 
   simulation.force("x",forceXsepUtilities)
+                .force("y",forceYreset.strength(0.7))
                 .alphaTarget(0.2)
                 .restart()
+  
+  const Utilities_label = svg.append("g")
+                .append('text')
+                  .attr('class','label')
+                  .attr('id','utilities_label')
+                  .attr('x',width-0.85*width)
+                  .attr('y',height-height*0.87)
+                  .text("Utilities Purchase")
+                  .style('visibility','hidden')
+    
+  const noUtilities_label = svg.append("g")
+                .append('text')
+                .attr('class','label')
+                .attr('id','utilities_label')
+                .attr('x',width/2-20)
+                .attr('y',height-height*0.87)
+                .text("No Utilities Purchase")
+                .style('visibility','hidden')
                 //.force("charge", d3.forceManyBody().strength(-80))
   circles.transition()
-            .attr("fill",(d)=>d.Utilities>0?'#cc33ff':'#cc33ff50')
+            .attr("fill",(d)=>d.Utilities>0?NeedColors.Utilities[0]:NeedColors.Utilities[1])
             .duration(500)
 d3.selectAll('#utilities_label').style('visibility','visible')
 }
@@ -279,13 +265,35 @@ const health = ()=>{
   const forceYsepHealth = d3.forceY((d)=>{
     if(d.Health >0){return height-height*0.6;} 
     else {return height-height*0.55}}).strength(0.9)
+
     simulation.force("y",forceYsepHealth)
+              .force("x",forceXreset.strength(0.6))
                 .alphaTarget(0.2)
                 .restart()
+      
+//Health Labels 
+  const Health_label = svg.append("g")
+            .append('text')
+              .attr('class','label')
+              .attr('id','Health_label')
+              .attr('x',width-0.65*width)
+              .attr('y',height-height*0.83)
+              .text("Health Payment")
+              .style('visibility','hidden')
+
+  const noHealth_label = svg.append("g")
+            .append('text')
+            .attr('class','label')
+            .attr('id','Health_label')
+            .attr('x',width-0.65*width)
+            .attr('y',height-height*0.27)
+            .text("No Health Payment")
+            .style('visibility','hidden')
+
     d3.selectAll('#Health_label').style('visibility','visible')
   
     circles.transition()
-            .attr("fill",(d)=>d.Health>0?'#ff6600':'#ff660050')
+            .attr("fill",(d)=>d.Health>0?NeedColors.Health[0]:NeedColors.Health[1])
             .duration(500)
 }
 const healthExit = ()=>{
@@ -298,18 +306,75 @@ const education = ()=>{
     else {return width-0.4*width}}).strength(0.9)
 
   simulation.force("x",forceXsepEducation)
+              .force("y",forceYreset.strength(0.7))
               .alphaTarget(0.2)
               .restart()
+              
+    //add education labels
+  const Education_label = svg.append("g")
+              .append('text')
+                .attr('class','label')
+                .attr('id','Education_label')
+                .attr('x',width-0.9*width)
+                .attr('y',height-height*0.75)
+                .text("Education Payment")
+                .style('visibility','hidden')
+  
+  const noEducation_label = svg.append("g")
+              .append('text')
+              .attr('class','label')
+              .attr('id','Education_label')
+              .attr('x',width-0.6*width)
+              .attr('y',height-height*0.75)
+              .text("No Education Payment")
+              .style('visibility','hidden')
 
   d3.selectAll('#Education_label').style('visibility','visible')
   circles.transition()
-            .attr("fill",(d)=>d.Education>0?'#0000ff':'#0000ff50')
+            .attr("fill",(d)=>d.Education>0?NeedColors.Education[0]:NeedColors.Education[1])
              //(d)=>radiusScale(d.Food)
             .duration(500)
 }
 const educationExit = ()=>{
   d3.selectAll('#Education_label').style('visibility','hidden')
         combine()}
+
+const clothing = ()=>{
+          const forceRClothing = d3.forceRadial(function(d) { return d.ClothesandShoes >0 ? 10 : 400; })
+        
+          simulation.force("r",forceRClothing)
+                      .alphaTarget(0.2)
+                      .restart()
+        
+            //add education labels
+          const Clothing_label = svg.append("g")
+                      .append('text')
+                        .attr('class','label')
+                        .attr('id','Clothing_label')
+                        .attr('x',width-0.9*width)
+                        .attr('y',height-height*0.75)
+                        .text("Clothing Payment")
+                        .style('visibility','hidden')
+          
+          const noClothing_label = svg.append("g")
+                      .append('text')
+                      .attr('class','label')
+                      .attr('id','Clothing_label')
+                      .attr('x',width-0.6*width)
+                      .attr('y',height-height*0.75)
+                      .text("No Clothing Payment")
+                      .style('visibility','hidden')
+        
+          d3.selectAll('#Clothing_label').style('visibility','visible')
+          circles.transition()
+                    .attr("fill",(d)=>d.ClothesandShoes>0?NeedColors.Clothing[0]:NeedColors.Clothing[1])
+                     //(d)=>radiusScale(d.Food)
+                    .duration(500)
+        }
+const clothingExit = ()=>{
+          d3.selectAll('#Clothing_label').style('visibility','hidden')
+                combine()}
+
 // Set up tool tip effect on Mouse enter and exit
 svg.selectAll('circle')
 .on('mouseover', mouseOver)
@@ -367,7 +432,8 @@ const EnterCallbacks =[combine,sepCountry,
   food_amount,
   utilities,
   health,
-  education
+  education,
+  clothing
 ]
 const ExitCallbacks =[combine,
   CountriesExit,
@@ -375,7 +441,8 @@ const ExitCallbacks =[combine,
   foodExit,
   utilitiesExit,
   healthExit,
-  educationExit
+  educationExit,
+  clothingExit
 ]
 // setup the instance, pass callback functions
 const steps = d3.selectAll(".step")

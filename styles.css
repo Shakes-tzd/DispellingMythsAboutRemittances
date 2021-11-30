@@ -6,14 +6,20 @@
   margin: 0;
   padding: 0;
 }
-.holder {
-  display: flex;
+
+@media (min-width: 768px) {
+  .container-1 {
+    display: flex; /* or inline-flex */
+    align-items: flex-start;
+  }
 }
 .chart_container {
+  flex: 2;
+  order: 1;
   position: sticky;
   top: 0px;
   left: 0px;
-  width: 70vw;
+  /*width: 100%;*/
   height: 100vh;
 }
 strong {
@@ -22,19 +28,35 @@ strong {
 }
 
 .steps {
-  width: 30vw;
+  /*width: 30vw;*/
+  flex: 1;
+  order: 2;
 }
-#chart {
+.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+/*#chart {
   margin-right: 0.313rem;
   position: sticky;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100vh;
-}
+}*/
 .step {
   margin-top: 5rem;
-  margin-right: 1rem;
+  margin-right: 1.2rem;
   min-height: 25rem;
   font-family: century-gothic, sans-serif;
 }
