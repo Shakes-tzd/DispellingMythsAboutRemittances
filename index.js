@@ -35,6 +35,7 @@ function createScales(){
 const tooldiv = d3.select('.container-1')
                     .append('div')
                     .attr("id","tooltip")
+                    .style('visibility','hidden')
 
  // set up simulation forces 
 
@@ -367,8 +368,7 @@ const clothing = ()=>{
           d3.selectAll('#Clothing_label').style('visibility','visible')
           circles.transition()
                     .attr("fill",(d)=>d.ClothesandShoes>0?NeedColors.Clothing[0]:NeedColors.Clothing[1])
-                     //(d)=>radiusScale(d.Food)
-                    .duration(500)
+                     .duration(500)
         }
 const clothingExit = ()=>{
           d3.selectAll('#Clothing_label').style('visibility','hidden')
@@ -383,7 +383,7 @@ function mouseOver(event, d){
     d3.select(this)
     .transition('mouseover').duration(100)
     .attr('opacity', 1)
-    .attr('stroke-width', 5)
+    .attr('stroke-width', 2)
     .attr('stroke', 'black')
 
     const RemitToIncomeRatio =(d.monthly_remesa_amount)/(d.avg_income_usd) 
@@ -410,8 +410,8 @@ function mouseOut(event, d){
     tooldiv.style('visibility','hidden')
 
     d3.select(this)
-        .transition('mouseout').duration(500)
-        .attr('opacity', 0.8)
+        .transition('mouseout')
+        .attr('opacity', 1)
         .attr('stroke-width', 0)}
   
 
