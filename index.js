@@ -226,7 +226,7 @@ const foodExit = ()=>{
 const utilities = ()=>{
   const forceXsepUtilities = d3.forceX((d)=>{
     if(d.Utilities >0){return width-0.6*width} 
-    else {return width-0.4*width}}).strength(0.9)
+    else {return width-0.4*width}}).strength(0.7)
 
   simulation.force("x",forceXsepUtilities)
                 .force("y",forceYreset.strength(0.7))
@@ -301,8 +301,8 @@ const healthExit = ()=>{
 
 const education = ()=>{
   const forceXsepEducation = d3.forceX((d)=>{
-    if(d.Education >0){return width-0.6*width} 
-    else {return width-0.4*width}}).strength(0.9)
+    if(d.Education >0){return width-0.5*width} 
+    else {return width-0.4*width}}).strength(0.7)
 
   simulation.force("x",forceXsepEducation)
               .force("y",forceYreset.strength(0.7))
@@ -314,7 +314,7 @@ const education = ()=>{
               .append('text')
                 .attr('class','label')
                 .attr('id','Education_label')
-                .attr('x',width-0.9*width)
+                .attr('x',width-0.955*width)
                 .attr('y',height-height*0.75)
                 .text("Education Payment")
                 .style('visibility','hidden')
