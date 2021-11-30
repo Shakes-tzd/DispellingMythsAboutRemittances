@@ -1,6 +1,6 @@
-let box = document.querySelector('.chart_container');
-let width = box.clientWidth;
-let height = box.clientHeight;
+// let box = document.querySelector('.chart_container');
+// let width = box.clientWidth;
+// let height = box.clientHeight;
 
 const rad = 8;// radius of bubbles
 const first_color = '#E7B36B' //first color of bubbles
@@ -11,15 +11,14 @@ const NeedColors={
   'Health':['#ff6600','#ff660050'],
   'Education':['#0000ff','#0000ff50'],
   'Clothing':['#cc33ff','#cc33ff50']
-
 }
+
 const categories =['Guatemala', 'Honduras', 'El-Salvador']
 const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
 
 const svg =d3.select("svg")
               .classed("svg-container", true)
               .attr("preserveAspectRatio", "xMinYMin meet")
-              .attr("viewBox", [0, 0, width, height])
               .classed("svg-content-responsive", true)
                 .append("g")
                 .attr("transform","translate(0,10)")
@@ -50,9 +49,10 @@ d3.csv("MostBasicNeeds.csv", d3.autoType).then((data)=>{
 // function for drawing the circles
 let ready= (datapoints)=>{
   let width = chartDiv.clientWidth;
-  let height = chartDiv.clientHeight/2.3;
+  let height = chartDiv.clientHeight/1.5;
 
-  svg.attr("width", width)
+  svg.attr("viewBox", [0, 0, width, height])
+      .attr("width", width)
       .attr("height", height);
 
 const forceXc = d3.forceX((d)=>{
