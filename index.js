@@ -55,19 +55,16 @@ let ready= (datapoints)=>{
   //     .attr("width", width)
   //     .attr("height", height);
 
-const forceXc = d3.forceX((d)=>{
-    if(d.country ==='GT'){return width-0.6*width}
-    else if (d.country ==='HND') {return width-0.5*width} 
-    else {return width-0.4*width }}).strength(0.85)
+
     
 
-const forceXstart = d3.forceX((d)=>width/2 ).strength(0.5)
-const forceYstart = d3.forceY((d)=>height/2 ).strength(0.5)
+const forceXstart = d3.forceX((d)=>width/2 ).strength(0.7)
+const forceYstart = d3.forceY((d)=>height/2 ).strength(0.7)
 const forceYreset = d3.forceY((d)=>height/2 )
 const forceXreset = d3.forceX((d)=>width/2 )
 
 const forceCollide = d3.forceCollide(rad+5).strength(0.5)//(d)=> radiusScale(d.Food)+2
-const center_force = d3.forceCenter(width / 2, height / 2);
+const center_force = d3.forceCenter(width / 2, height / 2).strength(0.5);
 
 // set up force simulation    
 const simulation = d3.forceSimulation()
@@ -94,11 +91,18 @@ const simulation = d3.forceSimulation()
     simulation.nodes(datapoints) //giving the simulation the data 
                 .on('tick',ticked)
   // Set up action when scrolling 
-    const sepCountry = function (){simulation
-                    .force("x",forceXc.strength(0.5))
-                    .force("y",forceYstart)
+    const sepCountry = function (){
+
+      const forceXc = d3.forceX((d)=>{
+        if(d.country ==='GT'){return width-0.7*width}
+        else if (d.country ==='HND') {return width-0.55*width} 
+        else {return width-0.4*width }}).strength(0.85)
+      
+      simulation
+                    .force("x",forceXc)
+                    .force("y",forceYreset.strength(0.75))
                     .force("charge", d3.forceManyBody().strength(-60))
-                    .alphaTarget(0.2)
+                    .alphaTarget(0.05)
                     .restart()
           //add labels for countries         
           const country_label = svg.append('g')
