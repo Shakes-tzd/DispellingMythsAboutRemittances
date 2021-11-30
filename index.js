@@ -360,7 +360,7 @@ const clothing = ()=>{
                       .attr('class','label')
                       .attr('id','Clothing_label')
                       .attr('x',width-0.6*width)
-                      .attr('y',height-height*0.75)
+                      .attr('y',height-height*0.45)
                       .text("No Clothing Payment")
                       .style('visibility','hidden')
         
