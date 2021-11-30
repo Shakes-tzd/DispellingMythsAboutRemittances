@@ -64,7 +64,7 @@ const noFood_label = d3.select('#chart').append("g")
             .attr('class','label')
             .attr('id','food_label')
             .attr('x',width/2-100)
-            .attr('y',height-height*0.25)
+            .attr('y',height-height*0.15)
             .text("No Food Purchase")
             .style('visibility','hidden')
 
@@ -90,8 +90,8 @@ const Education_label = d3.select('#chart').append("g")
             .append('text')
               .attr('class','label')
               .attr('id','Education_label')
-              .attr('x',width-0.65*width)
-              .attr('y',height-height*0.91)
+              .attr('x',width-0.9*width)
+              .attr('y',height-height*0.75)
               .text("Education Payment")
               .style('visibility','hidden')
 
@@ -99,8 +99,8 @@ const noEducation_label = d3.select('#chart').append("g")
             .append('text')
             .attr('class','label')
             .attr('id','Education_label')
-            .attr('x',width-0.7*width)
-            .attr('y',height-height*0.55)
+            .attr('x',width-0.6*width)
+            .attr('y',height-height*0.75)
             .text("No Education Payment")
             .style('visibility','hidden')
 //Health Labels 
@@ -144,11 +144,11 @@ const forceXc = d3.forceX((d)=>{
                 
 
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.5)
-const forceYstart = d3.forceY((d)=>height/3 ).strength(0.5)
+const forceYstart = d3.forceY((d)=>height/2 ).strength(0.5)
 
 
 const forceCollide = d3.forceCollide(rad+5).strength(0.5)//(d)=> radiusScale(d.Food)+2
-center_force = d3.forceCenter(width / 2, height / 2.25);
+center_force = d3.forceCenter(width / 2, height / 1.8);
     // set up force simulation
     
 const simulation = d3.forceSimulation()
@@ -240,10 +240,10 @@ let ready= (datapoints)=>{
 const food_amount = ()=>{
   const forceYsepFood = d3.forceY((d)=>{
     if(d.Food >0){return height-height*0.6;} 
-    else {return height-height*0.55}}).strength(0.8)
+    else {return height-height*0.55}}).strength(0.9)
 
   simulation.force("y",forceYsepFood)
-            .force("center_force",center_force)
+            .force("charge", d3.forceManyBody().strength(-90))
             .alphaTarget(0.2)
                 .restart()
   
@@ -278,9 +278,10 @@ const utilitiesExit = ()=>{
 const health = ()=>{
   const forceYsepHealth = d3.forceY((d)=>{
     if(d.Health >0){return height-height*0.6;} 
-    else {return height-height*0.55}}).strength(0.7)
-    simulation.force("y",forceYsepHealth).alphaTarget(0.2)
-    .restart()
+    else {return height-height*0.55}}).strength(0.9)
+    simulation.force("y",forceYsepHealth)
+                .alphaTarget(0.2)
+                .restart()
     d3.selectAll('#Health_label').style('visibility','visible')
   
     circles.transition()
@@ -292,12 +293,13 @@ const healthExit = ()=>{
         combine()}
 
 const education = ()=>{
-  const forceXsepEducation = d3.forceY((d)=>{
+  const forceXsepEducation = d3.forceX((d)=>{
     if(d.Education >0){return width-0.6*width} 
-    else {return width-0.4*width}}).strength(0.8)
+    else {return width-0.4*width}}).strength(0.9)
 
-  simulation.force("y",forceXsepEducation).alphaTarget(0.2)
-  .restart()
+  simulation.force("x",forceXsepEducation)
+              .alphaTarget(0.2)
+              .restart()
 
   d3.selectAll('#Education_label').style('visibility','visible')
   circles.transition()
