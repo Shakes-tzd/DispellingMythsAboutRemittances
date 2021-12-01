@@ -63,7 +63,7 @@ const forceYstart = d3.forceY((d)=>height/2 ).strength(0.7)
 const forceYreset = d3.forceY((d)=>height/2 )
 const forceXreset = d3.forceX((d)=>width/2 )
 
-const forceCollide = d3.forceCollide(rad+5).strength(0.5)//(d)=> radiusScale(d.Food)+2
+const forceCollide = d3.forceCollide(3*rad).strength(0.05)//(d)=> radiusScale(d.Food)+2
 const center_force = d3.forceCenter(width / 2, height / 2).strength(0.5);
 
 // set up force simulation    
@@ -72,10 +72,10 @@ const simulation = d3.forceSimulation()
             .force("y",forceYstart) // 
             .force("center_force", center_force)
             .force("collide",forceCollide)
-            .force("charge", d3.forceManyBody().strength(-60))
+            .force("charge", d3.forceManyBody().strength(-90))
             .alphaDecay(0.03)
             .velocityDecay(0.75)
-
+            
 
     const circles = svg.selectAll(".Household")
                         .data(datapoints)
@@ -96,13 +96,12 @@ const simulation = d3.forceSimulation()
       const forceXc = d3.forceX((d)=>{
         if(d.country ==='GT'){return width-0.7*width}
         else if (d.country ==='HND') {return width-0.55*width} 
-        else {return width-0.4*width }}).strength(0.85)
+        else {return width-0.4*width }}).strength(0.9)
       
       simulation
                     .force("x",forceXc)
                     .force("y",forceYreset.strength(0.75))
-                    .force("charge", d3.forceManyBody().strength(-60))
-                    .alphaTarget(0.05)
+                    .alphaTarget(0.1)
                     .restart()
           //add labels for countries         
           const country_label = svg.append('g')
@@ -140,13 +139,13 @@ const simulation = d3.forceSimulation()
     const sepLocation = ()=>{
       const forceYsepLocation = d3.forceY((d)=>{
         if(d.rural_urban ===1){return height-height*0.6;} 
-        else {return height-height*0.5}}).strength(0.8)
+        else {return height-height*0.5}}).strength(0.9)
 
     //change the simulation to move bubbles to the desired location
         simulation
         .force("y",forceYsepLocation)
         .force("charge", d3.forceManyBody().strength(-60))
-        .alphaTarget(0.2)
+        .alphaTarget(0.1)
         .restart()
       //add location labels 
         const rural_label = svg.append("g")
@@ -179,7 +178,10 @@ const simulation = d3.forceSimulation()
             simulation
                     .force("x",forceXstart)
                     .force("y",forceYstart)
+                    .force("charge", d3.forceManyBody().strength(-50))
                     .force("r", null)
+                    .alphaTarget(0.15)
+                    .restart()
                     
                     //.force("charge", d3.forceManyBody().strength(-20))
                     
@@ -196,8 +198,7 @@ const food_amount = ()=>{
 
   simulation.force("y",forceYsepFood)
             .force("x",forceXreset.strength(0.6))
-            .force("charge", d3.forceManyBody().strength(-90))
-            .alphaTarget(0.2)
+            .alphaTarget(0.1)
                 .restart()
   
   const Food_label = svg.append("g")
@@ -235,7 +236,7 @@ const utilities = ()=>{
 
   simulation.force("x",forceXsepUtilities)
                 .force("y",forceYreset.strength(0.7))
-                .alphaTarget(0.2)
+                .alphaTarget(0.1)
                 .restart()
   
   const Utilities_label = svg.append("g")
@@ -271,8 +272,8 @@ const health = ()=>{
     else {return height-height*0.55}}).strength(0.9)
 
     simulation.force("y",forceYsepHealth)
-              .force("x",forceXreset.strength(0.6))
-                .alphaTarget(0.2)
+              .force("x",forceXreset.strength(0.75))
+              .alphaTarget(0.15)
                 .restart()
       
 //Health Labels 
@@ -311,7 +312,7 @@ const education = ()=>{
 
   simulation.force("x",forceXsepEducation)
               .force("y",forceYreset.strength(0.7))
-              .alphaTarget(0.2)
+              .alphaTarget(0.1)
               .restart()
               
     //add education labels
@@ -347,7 +348,7 @@ const clothing = ()=>{
           const forceRClothing = d3.forceRadial(function(d) { return d.ClothesandShoes >0 ? 10 : 400; })
         
           simulation.force("r",forceRClothing)
-                      .alphaTarget(0.2)
+          .alphaTarget(0.1)
                       .restart()
         
             //add education labels
