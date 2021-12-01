@@ -57,21 +57,21 @@ let ready= (datapoints)=>{
 
 
     
-
-const forceXstart = d3.forceX((d)=>width/2 ).strength(0.7)
-const forceYstart = d3.forceY((d)=>height/2 ).strength(0.7)
+const collision = d3.forceCollide().radius(8.5).iterations(2);
+const forceXstart = d3.forceX((d)=>width/2 ).strength(0.6)
+const forceYstart = d3.forceY((d)=>height/2 ).strength(0.6)
 const forceYreset = d3.forceY((d)=>height/2 )
 const forceXreset = d3.forceX((d)=>width/2 )
 
 const forceCollide = d3.forceCollide(3*rad).strength(0.05)//(d)=> radiusScale(d.Food)+2
-const center_force = d3.forceCenter(width / 2, height / 2).strength(0.5);
+const center_force = d3.forceCenter(width / 2, height / 2).strength(0.2);
 
 // set up force simulation    
 const simulation = d3.forceSimulation()
             .force("x",forceXstart)
             .force("y",forceYstart) // 
             .force("center_force", center_force)
-            .force("collide",forceCollide)
+            .force("collide",collision)
             .force("charge", d3.forceManyBody().strength(-90))
             .alphaDecay(0.03)
             .velocityDecay(0.75)
@@ -170,7 +170,7 @@ const simulation = d3.forceSimulation()
         };
     const LocationExit = ()=>{
       d3.selectAll('#location_label').style('visibility','hidden')
-            combine()
+      combine();
         }
         
     // define function to combine
@@ -178,9 +178,8 @@ const simulation = d3.forceSimulation()
             simulation
                     .force("x",forceXstart)
                     .force("y",forceYstart)
-                    .force("charge", d3.forceManyBody().strength(-50))
                     .force("r", null)
-                    .alphaTarget(0.15)
+                    .alphaTarget(0.25)
                     .restart()
                     
                     //.force("charge", d3.forceManyBody().strength(-20))
@@ -198,7 +197,7 @@ const food_amount = ()=>{
 
   simulation.force("y",forceYsepFood)
             .force("x",forceXreset.strength(0.6))
-            .alphaTarget(0.1)
+            .alphaTarget(0.25)
                 .restart()
   
   const Food_label = svg.append("g")
@@ -236,7 +235,7 @@ const utilities = ()=>{
 
   simulation.force("x",forceXsepUtilities)
                 .force("y",forceYreset.strength(0.7))
-                .alphaTarget(0.1)
+                .alphaTarget(0.25)
                 .restart()
   
   const Utilities_label = svg.append("g")
@@ -268,12 +267,12 @@ const utilitiesExit = ()=>{
 
 const health = ()=>{
   const forceYsepHealth = d3.forceY((d)=>{
-    if(d.Health >0){return height-height*0.6;} 
-    else {return height-height*0.55}}).strength(0.9)
+    if(d.Health >0){return height-height*0.65;} 
+    else {return height-height*0.55}}).strength(0.95)
 
     simulation.force("y",forceYsepHealth)
               .force("x",forceXreset.strength(0.75))
-              .alphaTarget(0.15)
+              .alphaTarget(0.2)
                 .restart()
       
 //Health Labels 
@@ -312,7 +311,7 @@ const education = ()=>{
 
   simulation.force("x",forceXsepEducation)
               .force("y",forceYreset.strength(0.7))
-              .alphaTarget(0.1)
+              .alphaTarget(0.2)
               .restart()
               
     //add education labels
@@ -348,7 +347,7 @@ const clothing = ()=>{
           const forceRClothing = d3.forceRadial(function(d) { return d.ClothesandShoes >0 ? 10 : 400; })
         
           simulation.force("r",forceRClothing)
-          .alphaTarget(0.1)
+          .alphaTarget(0.2)
                       .restart()
         
             //add education labels
