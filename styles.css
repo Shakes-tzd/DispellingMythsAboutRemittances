@@ -185,6 +185,11 @@ header {
   margin: 0 auto;
 }
 h3 {
+  font-size: 3vmin;
+  font-family: century-gothic, sans-serif;
+}
+.higlighted {
+  max-width: max-content;
   color: whitesmoke;
 }
 .country_label {
@@ -198,19 +203,55 @@ h3 {
   position: absolute;
   font-size: 2vmin;
   font-family: century-gothic, sans-serif;
-  z-index: 150;
+  z-index: 300;
 }
 
-/*#label 
-  position: absolute;
-  display: none;
-  background: #e7dfdf;
-  border-radius: 0.188rem;
-  box-shadow: -3px 3px 15px #939393;
-  color: black;
-  padding: 6px;
-  font-family: "Merriweather";
-  font-size: 1.1em;
-  max-width: fit-content;
-  z-index: 100;
-}*/
+#gt {
+  background-color: #e3cfcf;
+}
+#hnd {
+  background-color: #c0cfcc;
+}
+#slv {
+  background-color: #d3e5ef;
+}
+
+#clothing {
+  background-color: #ab878a;
+}
+#clothing_intro {
+  color: #ab878a;
+}
+#food {
+  background-color: #ad98b4;
+}
+#food_intro {
+  color: #ad98b4;
+}
+
+#utilities {
+  background-color: #8098b2;
+}
+#utilities_intro {
+  color: #8098b2;
+}
+
+#health {
+  background-color: #86738c;
+}
+#health_intro {
+  color: #86738c;
+}
+
+#education {
+  background-color: #54a4aa;
+}
+#education_intro {
+  color: #54a4aa;
+}
+#rural {
+  background-color: #4b8053;
+}
+#urban {
+  background-color: #ab9267;
+}
