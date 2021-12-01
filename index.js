@@ -186,8 +186,8 @@ let ready= (datapoints)=>{
 
     
 const collision = d3.forceCollide().radius(8.5).iterations(2);
-const forceXstart = d3.forceX((d)=>width/2 ).strength(0.6)
-const forceYstart = d3.forceY((d)=>height/2 ).strength(0.6)
+const forceXstart = d3.forceX((d)=>width/2 ).strength(0.75)
+const forceYstart = d3.forceY((d)=>height/2 ).strength(0.75)
 const forceYreset = d3.forceY((d)=>height/2 )
 const forceXreset = d3.forceX((d)=>width/2 )
 
@@ -269,8 +269,8 @@ const simulation = d3.forceSimulation()
     // define function to combine
     const combine =()=>{
             simulation
-                    .force("x",forceXstart)
-                    .force("y",forceYstart)
+                    .force("x",forceXreset.strength(0.8))
+                    .force("y",forceYreset.strength(0.8))
                     .force("r", null)
                     .alphaTarget(0.25)
                     .restart()
@@ -285,11 +285,11 @@ const simulation = d3.forceSimulation()
 
 const food_amount = ()=>{
   
-    const forceRFood = d3.forceRadial(d=> d.Food <=0 ? 40 : 400,x,y )
+    const forceRFood = d3.forceRadial(d=> d.Food <=0 ? 40 : 450,x,y )
     simulation
-    .force("charge", d3.forceCollide().radius(9).iterations(1))
-    .force("r",forceRFood)
-    .force("charge", d3.forceManyBody().strength(-60))
+    .force("charge", d3.forceCollide().radius(9).iterations(2))
+    .force("r",forceRFood.strength(0.3))
+    .force("charge", d3.forceManyBody().strength(-70))
     .alphaTarget(0.1)
     .restart()
   
@@ -308,10 +308,10 @@ const foodExit = ()=>{
 const utilities = ()=>{
   const forceXsepUtilities = d3.forceX((d)=>{
     if(d.Utilities >0){return width-0.6*width} 
-    else {return width-0.4*width}}).strength(0.7)
+    else {return width-0.4*width}}).strength(0.8)
 
   simulation.force("x",forceXsepUtilities)
-                .force("y",forceYreset.strength(0.7))
+                .force("y",forceYreset.strength(0.8))
                 .alphaTarget(0.25)
                 .restart()
   
@@ -351,10 +351,10 @@ const healthExit = ()=>{
 const education = ()=>{
   const forceXsepEducation = d3.forceX((d)=>{
     if(d.Education >0){return width-0.5*width} 
-    else {return width-0.4*width}}).strength(0.7)
+    else {return width-0.4*width}}).strength(0.75)
 
   simulation.force("x",forceXsepEducation)
-              .force("y",forceYreset.strength(0.7))
+              .force("y",forceYreset.strength(0.75))
               .alphaTarget(0.2)
               .restart()
               
@@ -371,11 +371,13 @@ const educationExit = ()=>{
         combine()}
 
 const clothing = ()=>{
-          const forceRClothing = d3.forceRadial(d=> d.ClothesandShoes >0 ? 10 : 400)
+          const forceRClothing = d3.forceRadial(d=> d.ClothesandShoes >0 ? 400 : 10)
         
-          simulation.force("r",forceRClothing)
-          .alphaTarget(0.2)
-                      .restart()
+          simulation.force("collide",d3.forceCollide().radius(9).iterations(1))
+                    .force("r",forceRClothing.strength(0.4))
+                    .force("charge", d3.forceManyBody().strength(-80))
+                    .alphaTarget(0.1)
+                    .restart()
         
 
         
