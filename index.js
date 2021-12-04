@@ -397,7 +397,7 @@ svg.selectAll('circle')
 
 function mouseOver(event, d){
     d3.select(this)
-    .transition('mouseover').duration(100)
+    .transition('mouseover').duration(500)
     .attr('opacity', 1)
     //.attr('stroke-width', 2)
     //.attr('stroke', 'black')
@@ -424,9 +424,9 @@ function mouseOver(event, d){
 
 function mouseOut(event, d){
     tooldiv.style('visibility','hidden')
-
+  
     d3.select(this)
-        .transition('mouseout')
+        .transition('mouseout').duration(500)
         .attr('opacity', 1)
         .attr('stroke-width', 0)}
   

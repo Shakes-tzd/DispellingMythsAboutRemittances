@@ -46,6 +46,11 @@ strong {
   top: 10px;
   left: 0;
 }
+.introduction {
+  margin: 2rem;
+  padding: 1rem;
+  justify-content: center;
+}
 /*#chart {
   margin-right: 0.313rem;
   position: sticky;
