@@ -185,7 +185,7 @@ const utilities = ()=>{
 
   simulation.force("x",forceXsepUtilities)
                 .force("y",forceYreset.strength(0.8))
-                .alphaTarget(0.25)
+                .alphaTarget(0.1)
                 .restart()
   
   
@@ -206,7 +206,7 @@ const health = ()=>{
 
     simulation.force("y",forceYsepHealth)
               .force("x",forceXreset.strength(0.75))
-              .alphaTarget(0.2)
+              .alphaTarget(0.1)
                 .restart()
       
 
@@ -224,11 +224,11 @@ const healthExit = ()=>{
 const education = ()=>{
   const forceXsepEducation = d3.forceX((d)=>{
     if(d.Education >0){return width-0.5*width} 
-    else {return width-0.4*width}}).strength(0.75)
+    else {return width-0.4*width}}).strength(0.8)
 
   simulation.force("x",forceXsepEducation)
-              .force("y",forceYreset.strength(0.75))
-              .alphaTarget(0.2)
+              .force("y",forceYreset.strength(0.8))
+              .alphaTarget(0.1)
               .restart()
               
 
@@ -248,7 +248,7 @@ const clothing = ()=>{
         
           simulation.force("collide",d3.forceCollide().radius(9).iterations(1))
                     .force("r",forceRClothing.strength(0.4))
-                    .force("charge", d3.forceManyBody().strength(-80))
+                    .force("charge", d3.forceManyBody().strength(-90))
                     .alphaTarget(0.1)
                     .restart()
         
@@ -339,12 +339,16 @@ const ExitCallbacks =[combine,
 const steps = d3.selectAll(".step")
 scroller
   .setup({
-    step: ".step",})
+    step: ".step",
+    offset: 0.5,
+    //debug:true
+  
+  })
   .onStepEnter((response) => {
     //console.log( 'enter: ')
     //console.log(response)
-    steps.style("opacity",0.1)
-    d3.select(response.element).style("opacity",1)
+    // steps.style("opacity",0.1)
+     //d3.select(response.element).style("opacity",1)
     if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
     
     // if(response.index ===1){return sepCountry();}
