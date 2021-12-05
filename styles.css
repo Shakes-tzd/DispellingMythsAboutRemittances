@@ -238,7 +238,12 @@ h3 {
 #slv {
   background-color: #d3e5ef;
 }
-
+#intro-highlight{
+  background-color: #bfcecb;
+}
+#combined-highlight{
+  background-color: #A0BE94;
+}
 #clothing {
   background-color: #ab878a;
 }
