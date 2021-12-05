@@ -73,6 +73,13 @@ strong {
   min-height: 30rem;
   font-family: century-gothic, sans-serif;
 }
+.between-steps{
+  margin-top: 5rem;
+  margin-right: 1.2rem;
+  padding-left: 1.2rem;
+  min-height: 30rem;
+  font-family: century-gothic, sans-serif;
+}
 #tooltip {
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
