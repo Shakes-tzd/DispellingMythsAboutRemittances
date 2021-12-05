@@ -74,6 +74,7 @@ strong {
 }
 #tooltip {
   position: absolute;
+  pointer-events: none;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 0.188rem;
   box-shadow: -3px 3px 15px #939393;

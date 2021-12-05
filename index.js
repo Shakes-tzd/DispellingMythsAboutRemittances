@@ -128,7 +128,7 @@ const simulation = d3.forceSimulation()
 
     simulation.force("y",forceYsepLocation)
               .force("x",forceXreset.strength(0.75))
-              .alphaTarget(0.25)
+              .alphaTarget(0.1)
                   .restart()
                   
     circles.transition().attr("fill",(d)=> d.rural_urban ===1?'#4b8053':'#ab9267')             
@@ -270,7 +270,7 @@ svg.selectAll('circle')
 
 function mouseOver(event, d){
     d3.select(this)
-    .transition('mouseover').duration(500)
+    .transition('mouseover').duration(1000)
     .attr('opacity', 1)
     //.attr('stroke-width', 2)
     //.attr('stroke', 'black')
@@ -299,7 +299,7 @@ function mouseOut(event, d){
     tooldiv.style('visibility','hidden')
   
     d3.select(this)
-        .transition('mouseout').duration(500)
+        .transition('mouseout').duration(1000)
         .attr('opacity', 1)
         .attr('stroke-width', 0)}
   
