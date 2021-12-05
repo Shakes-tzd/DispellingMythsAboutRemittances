@@ -291,9 +291,10 @@ function mouseOver(event, d){
         <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
         <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
         <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
-        <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittances are '+RemitPCT+'% more than the Household Income'}
+        <br> <b>Household Remittances to Household Income Ratio:</b> ${Math.round(RemitToIncomeRatio * 100) / 100}
         `)
         }
+//         <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittances are '+RemitPCT+'% more than the Household Income'}
 
 function mouseOut(event, d){
     tooldiv.style('visibility','hidden')
@@ -317,6 +318,7 @@ const scroller = scrollama();
 
 const EnterCallbacks =[combine,sepCountry,
   sepLocation,
+  combine,
   food_amount,
   utilities,
   health,
@@ -326,6 +328,7 @@ const EnterCallbacks =[combine,sepCountry,
 const ExitCallbacks =[combine,
   CountriesExit,
   LocationExit,
+  combine,
   foodExit,
   utilitiesExit,
   healthExit,
