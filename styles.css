@@ -144,7 +144,7 @@ img {
 }
 
 .img1 {
-  background-image: url("images/after.jpeg");
+  background-image: url("images/after.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -152,7 +152,7 @@ img {
 }
 
 .img2 {
-  background-image: URL("images/before.jpeg");
+  background-image: URL("images/before.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -261,11 +261,11 @@ h3 {
 #slv {
   background-color: #d3e5ef;
 }
-#intro-highlight{
+#intro-highlight {
   background-color: #bfcecb;
 }
-#combined-highlight{
-  background-color: #A0BE94;
+#combined-highlight {
+  background-color: #a0be94;
 }
 #clothing {
   background-color: #ab878a;

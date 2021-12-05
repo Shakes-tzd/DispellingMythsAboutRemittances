@@ -349,6 +349,7 @@ scroller
     //console.log(response)
     // steps.style("opacity",0.1)
      //d3.select(response.element).style("opacity",1)
+     console.log(response.index)
     if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
     
     // if(response.index ===1){return sepCountry();}
@@ -359,6 +360,7 @@ scroller
     })
     
   .onStepExit((response) => {
+    console.log(response.index)
     if (response.index<=ExitCallbacks.length-1 ){ExitCallbacks[response.index]()}
     //console.log('exit: ')
     //console.log(response)
