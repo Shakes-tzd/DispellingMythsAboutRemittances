@@ -17,141 +17,14 @@ const categories =['Guatemala', 'Honduras', 'El-Salvador']
 const colors = {GT:'#E4D0CF',HND:'#BFCECB',SLV:'#D3E5EF'}
 
 const svg =d3.select("svg")
-              .attr("viewBox", [0, 0, width, height])
               .attr("width", width)
               .attr("height", height)
+              .attr("preserveAspectRatio", "xMinYMin meet")
+              .attr("viewBox", [0, 0, width, height])
+              .classed("svg-content", true)
+              .call(responsivefy)
                 .append("g")
                 .attr('id',"bubbles")
-
-//add labels for countries         
-const country_label = svg.append('g')
-.selectAll("text")                    
-.data(categories)
-.enter()
-    .append("text")
-    .attr('class','label')
-    .attr('id','country_label')
-    .attr("x",(d,i)=>{
-      if(i ===0){return width-0.85*width}
-      else if (i===1) {return width-0.62*width} 
-      else {return width-0.35*width }})
-    .attr("y",height*0.07)
-    .text((d,i)=>{
-      if(i ===0){return categories[i]}
-      else if (i===1) {return categories[i]} 
-      else { return categories[i]}})
-    .style('visibility','hidden') 
-
-//add location labels 
-const rural_label = svg.append("g")
-.append('text')
-.attr('class','label')
-.attr('id','location_label')
-.attr('x',width-0.85*width)
-.attr('y',height-height*0.7)
-.text("Rural")
-.style('visibility','hidden') 
-
-const urban_label = svg.append("g")
-.append('text')
-.attr('class','label')
-.attr('id','location_label')
-.attr('x',width-0.85*width)
-.attr('y',height-height*0.3)
-.text("Urban")
-.style('visibility','hidden')    
-
-const Food_label = svg.append("g")
-                .append('text')
-                  .attr('class','label')
-                  .attr('id','food_label')
-                  .attr('x',width/2-100)
-                  .attr('y',height-height*0.82)
-                  .text("Food Purchase")
-                  .style('visibility','hidden')
-    
-  const noFood_label = svg.append("g")
-                .append('text')
-                .attr('class','label')
-                .attr('id','food_label')
-                .attr('x',width/2-100)
-                .attr('y',height-height*0.15)
-                .text("No Food Purchase")
-                .style('visibility','hidden')
-                
-const Utilities_label = svg.append("g")
-                .append('text')
-                  .attr('class','label')
-                  .attr('id','utilities_label')
-                  .attr('x',width-0.85*width)
-                  .attr('y',height-height*0.87)
-                  .text("Utilities Purchase")
-                  .style('visibility','hidden')
-    
-  const noUtilities_label = svg.append("g")
-                .append('text')
-                .attr('class','label')
-                .attr('id','utilities_label')
-                .attr('x',width/2-20)
-                .attr('y',height-height*0.87)
-                .text("No Utilities Purchase")
-                .style('visibility','hidden')
-//Health Labels 
-const Health_label = svg.append("g")
-.append('text')
-  .attr('class','label')
-  .attr('id','Health_label')
-  .attr('x',width-0.65*width)
-  .attr('y',height-height*0.83)
-  .text("Health Payment")
-  .style('visibility','hidden')
-
-const noHealth_label = svg.append("g")
-.append('text')
-.attr('class','label')
-.attr('id','Health_label')
-.attr('x',width-0.65*width)
-.attr('y',height-height*0.27)
-.text("No Health Payment")
-.style('visibility','hidden')
-
-//add education labels
-const Education_label = svg.append("g")
-.append('text')
-  .attr('class','label')
-  .attr('id','Education_label')
-  .attr('x',width-0.955*width)
-  .attr('y',height-height*0.75)
-  .text("Education Payment")
-  .style('visibility','hidden')
-
-const noEducation_label = svg.append("g")
-.append('text')
-.attr('class','label')
-.attr('id','Education_label')
-.attr('x',width-0.6*width)
-.attr('y',height-height*0.75)
-.text("No Education Payment")
-.style('visibility','hidden')
-
-//add education labels
-const Clothing_label = svg.append("g")
-.append('text')
-  .attr('class','label')
-  .attr('id','Clothing_label')
-  .attr('x',width-0.9*width)
-  .attr('y',height-height*0.75)
-  .text("Clothing Payment")
-  .style('visibility','hidden')
-
-const noClothing_label = svg.append("g")
-.append('text')
-.attr('class','label')
-.attr('id','Clothing_label')
-.attr('x',width-0.6*width)
-.attr('y',height-height*0.45)
-.text("No Clothing Payment")
-.style('visibility','hidden')
 
 function createScales(){
     categoryColorScale = d3.scaleOrdinal(categories, colors)}
@@ -185,7 +58,7 @@ let ready= (datapoints)=>{
 
 
     
-const collision = d3.forceCollide().radius(8.5).iterations(2);
+const collision = d3.forceCollide().radius(8.5).iterations(1);
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.75)
 const forceYstart = d3.forceY((d)=>height/2 ).strength(0.75)
 const forceYreset = d3.forceY((d)=>height/2 )
@@ -287,7 +160,7 @@ const food_amount = ()=>{
   
     const forceRFood = d3.forceRadial(d=> d.Food <=0 ? 40 : 450,x,y )
     simulation
-    .force("charge", d3.forceCollide().radius(9).iterations(2))
+    .force("charge", d3.forceCollide().radius(9).iterations(1))
     .force("r",forceRFood.strength(0.3))
     .force("charge", d3.forceManyBody().strength(-70))
     .alphaTarget(0.1)
@@ -494,4 +367,59 @@ window.addEventListener("resize", scroller.resize);
 } 
 
 // calling all of the Html classes
+const img2 = document.querySelector('.img2')
 
+    // horizontal movement
+    window.addEventListener('keydown',(e)=>{
+        if(e.key == 'h'){
+            window.addEventListener('mousemove',(e)=>{
+                img2.style.left = e.clientX +'px'
+                img2.style.top = 0 +'px'
+            })
+        }
+    })
+
+    window.addEventListener('mousemove',(e)=>{
+        img2.style.left = e.clientX + 'px'
+        img2.scroll.top = 0 + 'px'
+    })
+
+    function responsivefy(svg) {
+      // container will be the DOM element
+      // that the svg is appended to
+      // we then measure the container
+      // and find its aspect ratio
+      const container = d3.select(svg.node().parentNode),
+          width = parseInt(svg.style('width'), 10),
+          height = parseInt(svg.style('height'), 10),
+          aspect = width / height;
+     
+      // set viewBox attribute to the initial size
+      // control scaling with preserveAspectRatio
+      // resize svg on inital page load
+      svg.attr('viewBox', `0 0 ${width} ${height}`)
+          .attr('preserveAspectRatio', 'xMinYMid')
+          .call(resize);
+     
+      // add a listener so the chart will be resized
+      // when the window resizes
+      // multiple listeners for the same event type
+      // requires a namespace, i.e., 'click.foo'
+      // api docs: https://goo.gl/F3ZCFr
+      d3.select(window).on(
+          'resize.' + container.attr('id'), 
+          resize
+      );
+     
+      // this is the code that resizes the chart
+      // it will be called on load
+      // and in response to window resizes
+      // gets the width of the container
+      // and resizes the svg to fill it
+      // while maintaining a consistent aspect ratio
+      function resize() {
+          const w = parseInt(container.style('width'));
+          svg.attr('width', w);
+          svg.attr('height', Math.round(w / aspect));
+      }
+    }

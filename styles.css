@@ -7,19 +7,26 @@
   padding: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 400px) {
   .container-1 {
     display: flex; /* or inline-flex */
     align-items: flex-start;
   }
 }
+.conclusion {
+  margin: 2rem;
+  display: flex;
+}
+.hist {
+  height: 40rem;
+  width: 100vw;
+}
 .chart_container {
-  flex: 2;
   order: 1;
   position: sticky;
   top: 0px;
   left: 0px;
-  /*width: 100%;*/
+  width: 60vw;
   height: 100vh;
 }
 strong {
@@ -28,8 +35,7 @@ strong {
 }
 
 .steps {
-  /*width: 30vw;*/
-  flex: 1;
+  width: 40vw;
   order: 2;
 }
 .svg-container {
@@ -40,7 +46,7 @@ strong {
   vertical-align: top;
   overflow: hidden;
 }
-.svg-content-responsive {
+.svg-content {
   display: inline-block;
   position: absolute;
   top: 10px;
@@ -62,6 +68,7 @@ strong {
 .step {
   margin-top: 5rem;
   margin-right: 1.2rem;
+  padding-left: 1.2rem;
   min-height: 30rem;
   font-family: century-gothic, sans-serif;
 }
@@ -129,7 +136,7 @@ header {
 #myth {
   margin-top: 50vh;
   z-index: 10;
-  color: white;
+  color: #ffffff;
   margin-bottom: 1px;
   font-size: 6vmin;
   font-weight: 700;
@@ -195,7 +202,7 @@ h3 {
 }
 .higlighted {
   max-width: max-content;
-  color: whitesmoke;
+  color: black;
 }
 .country_label {
   position: absolute;
