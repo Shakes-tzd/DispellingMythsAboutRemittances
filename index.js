@@ -28,7 +28,7 @@ const svg =d3.select("svg")
 
 function createScales(){
     categoryColorScale = d3.scaleOrdinal(categories, colors)}
-    const radiusScale = d3.scaleSqrt().domain([0,100]).range([5,20])
+    
     
 
 const tooldiv = d3.select('.container-1')
@@ -42,22 +42,16 @@ const tooldiv = d3.select('.container-1')
  const bubbleG = document.getElementById("bubbles");                     
 console.log(bubbleG.getBoundingClientRect().x)
 console.log(bubbleG.getBoundingClientRect().y)
-d3.csv("MostBasicNeeds.csv", d3.autoType).then((data)=>{
-    dataset = data
+d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((data)=>{
+    let dataset = data
+    
     ready(data)
     //window.addEventListener("resize", ready)
   });
+const radiusScale = d3.scaleSqrt().domain([0,100]).range([5,20])
 // function for drawing the circles
 let ready= (datapoints)=>{
-  // let width = chartDiv.clientWidth;
-  // let height = chartDiv.clientHeight/1.5;
-
-  // svg.attr("viewBox", [0, 0, width, height])
-  //     .attr("width", width)
-  //     .attr("height", height);
-
-
-    
+ 
 const collision = d3.forceCollide().radius(8.5).iterations(1);
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.75)
 const forceYstart = d3.forceY((d)=>height/2 ).strength(0.75)

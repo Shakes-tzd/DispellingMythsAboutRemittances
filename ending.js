@@ -20,7 +20,7 @@ const expenses = [
 ];
 const r=3;
 
-d3.csv("MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
+d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
     foodData = []
     healthData = []
     utilData = []
@@ -71,6 +71,7 @@ console.log(nodes2)
             .call(responsivefy)
               .append("g")
               .attr('id','ex_hist')
+              
 
               const forceXexpense = d3.forceX((d)=>{
                 if ('food' in d){return expenseCenters.Food.x}
@@ -128,32 +129,7 @@ const labels = svg2.selectAll("g")
         .attr('dominant-baseline','middle')
         .attr('text-anchor','middle')  
         .attr('fill','#ffffff')  
-  
-// for (const key in expenseCenters) { 
-//     if (key=='Food'){
-//         console.log(key)
-//         d3.select('#ex_hist').append("g")
-//         .append('rect')
-//             .attr('fill',expenseCenters.Food.color)
-//             .attr('width',60)
-//             .attr('height',25)
-//             .attr('x',expenseCenters.Food.x-20)
-//             .attr('y',height2/1.5 )
-//             .attr('id','foodrect')
-//         d3.select('#foodrect').append("g").append('text')
-//         .attr('x',expenseCenters.Food.x)
-//         .attr('y',height2/1.5 )
-//         .text("Food")
-//         .attr('fill','#bfcecb')    
-    
-//     }
-// }
-//     //console.log(key);}
-                           //console.log(expenseCenters)
-//    expenseCenters.forEach(item => {
-//     console.log(item)
-//     }
-//    ) 
+ 
   });
 
 //   const circles = svg.selectAll(".Household")

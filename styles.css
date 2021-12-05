@@ -109,6 +109,11 @@ img {
   height: 25rem;
   width: 100vw;
 }
+/* #ex_hist {
+  position: absolute;
+  
+  z-index: 100;
+} */
 #tooltip {
   position: absolute;
   pointer-events: none;
