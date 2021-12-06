@@ -119,11 +119,11 @@ strong {
   top: 0px;
   left: 0px;
   background-color: white;
-  height: 27rem;
+  height: 32.5rem;
   /* padding-top: 1rem; */
 }
 .hist {
-  height: 25rem;
+  height: 40rem;
   width: 100vw;
 }
 /* #ex_hist {
@@ -346,4 +346,11 @@ h3 {
   justify-content: center;
   font-family: century-gothic, sans-serif;
   font-size: 2.5vmin;
+}
+.summary {
+  justify-content: center;
+  font-family: century-gothic, sans-serif;
+  font-size: 2.5vmin;
+  margin-left: 2rem;
+  padding-top: 0.5rem;
 }

@@ -49,7 +49,7 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((data)=>{
     
     ready(data)
   });
-const radiusScale = d3.scaleSqrt().domain([0,1000]).range([3,12])
+const radiusScale = d3.scaleSqrt().domain([0,1000]).range([2,8])
 // function for drawing the circles
 let ready= (datapoints)=>{
  
@@ -315,7 +315,7 @@ function mouseOver(event, d){
     .style('display', 'inline-block')
     .html(`<b>Country:</b> ${d.country}
         <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
-        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
+        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.remesa_amount_usd* 100) / 100} 
         <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
         <br> <b>Household Remittances to Household Income Ratio:</b> ${Math.round(RemitToIncomeRatio * 100) / 100}
         `)
@@ -380,7 +380,7 @@ scroller
     //console.log(response)
     // steps.style("opacity",0.1)
      //d3.select(response.element).style("opacity",1)
-     console.log(response.index+" enter")
+     //console.log(response.index+" enter")
     if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
     
     })

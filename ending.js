@@ -5,13 +5,13 @@ let height2 = box2.clientHeight;
 // console.log(box2.clientHeight)
 
 const expenseCenters = {
-    "Other": {x: width2/10 , y: height2/3,'color':'#DAA520' },
-    "Housing": {x: 2.1*width2/10 , y: height2/3,'color':'#0B5A5F' },
-    "Education": {x: 3.2*width2/10 , y: height2/3,'color':'#54A4AA' },
-    "Clothing": {x: 4.25 * width2/10, y: height2/3,'color': '#AB878A'},
-    "Utilities": {x: 6.75 * width2/10, y: height2/3,'color': '#8098B2'},
-    "Health": {x: 5.5* width2/10, y: height2/3 ,'color':'#86738C'},
-    "Food": {x: 8 * width2/10, y: height2/3,'color':'#AD98B4' }  
+    "Other": {x: width2/14 , y: height2/3,'color':'#DAA520' },
+    "Housing": {x: 1.5*width2/10 , y: height2/3,'color':'#0B5A5F' },
+    "Education": {x: 2.3*width2/10 , y: height2/3,'color':'#54A4AA' },
+    "Clothing": {x: 3.25 * width2/10, y: height2/3,'color': '#AB878A'},
+    "Utilities": {x: 6.4 * width2/10, y: height2/3,'color': '#8098B2'},
+    "Health": {x: 4.5* width2/10, y: height2/3 ,'color':'#86738C'},
+    "Food": {x: 8.5 * width2/10, y: height2/3,'color':'#AD98B4' }  
 };
 const expenses = [
     {ex_name:"Other",x: expenseCenters.Other.x , y: expenseCenters.Other.y,'color':expenseCenters.Other.color },
@@ -104,8 +104,8 @@ const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData,houseData
     const simulation2 = d3.forceSimulation(nodes2)
             .velocityDecay(0.2)
             .force("x", forceXexpense)
-            .force("y", d3.forceY(height2 / 3).strength(0.2))
-            .force("collide", d3.forceCollide().radius(3.5).iterations(1))
+            .force("y", d3.forceY(height2 / 3.2).strength(0.2))
+            .force("collide", d3.forceCollide().radius((d)=> radiusScale(d.remesa_amount_usd)+3).iterations(1))
             .force("charge", d3.forceManyBody().strength(-3))
             .alphaDecay(0.03)
             .velocityDecay(0.6)
@@ -123,7 +123,7 @@ const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData,houseData
                                 else if ('other' in d){return expenseCenters.Other.color}
                                 else if ('housing' in d){return expenseCenters.Housing.color}
                             })
-                            .attr('r',r)
+                            .attr('r',(d)=> radiusScale(d.remesa_amount_usd)+2)
 
     simulation2.on("tick", function() {
                 node.attr("cx", function(d) { return d.x = Math.max(r, Math.min(width2 - r, d.x)); })
@@ -178,7 +178,7 @@ function mouseOver(event, d){
     .style('display', 'inline-block')
     .html(`<b>Country:</b> ${d.country}
         <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
-        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
+        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.remesa_amount_usd* 100) / 100} 
         <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
         <br> <b>Household Remittances to Household Income Ratio:</b> ${Math.round(RemitToIncomeRatio * 100) / 100}
         `)
