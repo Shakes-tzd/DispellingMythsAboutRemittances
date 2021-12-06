@@ -312,6 +312,18 @@ h3 {
 #education_intro {
   color: #54a4aa;
 }
+#housing {
+  background-color: #0b5a5f80;
+}
+#housing_intro {
+  color: #0b5a5f;
+}
+#other {
+  background-color: #daa520;
+}
+#other_intro {
+  color: #daa520;
+}
 #rural {
   background-color: #4b8053;
 }
