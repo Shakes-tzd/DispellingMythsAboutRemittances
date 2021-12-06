@@ -41,8 +41,7 @@ header {
   height: 95vh;
   right: 20%;
 }
-.card_image {
-}
+
 .intro_txt {
   width: 50%;
   padding-left: 5rem;
@@ -89,7 +88,7 @@ strong {
   margin-right: 1.2rem;
   padding-left: 1.2rem;
   padding-right: 1.5rem;
-  min-height: 30rem;
+  min-height: 35rem;
   font-family: century-gothic, sans-serif;
   font-size: 2.5vmin;
 }

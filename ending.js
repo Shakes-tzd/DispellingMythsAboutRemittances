@@ -1,8 +1,8 @@
 let box2 = document.querySelector('.hist');
 let width2 = box2.clientWidth;
 let height2 = box2.clientHeight;
-console.log(box2.clientWidth)
-console.log(box2.clientHeight)
+// console.log(box2.clientWidth)
+// console.log(box2.clientHeight)
 
 const expenseCenters = {
     "Education": {x: 1.7*width2/10 , y: height2/3,'color':'#54A4AA' },
@@ -59,7 +59,7 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
     
     
 const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData)
-console.log(nodes2)
+//console.log(nodes2)
 
 
     //window.addEventListener("resize", ready)

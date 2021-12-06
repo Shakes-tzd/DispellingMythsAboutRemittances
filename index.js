@@ -40,26 +40,26 @@ const tooldiv = d3.select('.container-1')
 
  const chartDiv = document.getElementById("chart_div");   
  const bubbleG = document.getElementById("bubbles");                     
-console.log(bubbleG.getBoundingClientRect().x)
-console.log(bubbleG.getBoundingClientRect().y)
+// console.log(bubbleG.getBoundingClientRect().x)
+// console.log(bubbleG.getBoundingClientRect().y)
 d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((data)=>{
     let dataset = data
     
     ready(data)
-    //window.addEventListener("resize", ready)
   });
-const radiusScale = d3.scaleSqrt().domain([0,100]).range([5,20])
+const radiusScale = d3.scaleSqrt().domain([0,1000]).range([3,12])
 // function for drawing the circles
 let ready= (datapoints)=>{
  
-const collision = d3.forceCollide().radius(8.5).iterations(1);
+const collision = d3.forceCollide().radius((d)=> radiusScale(d.remesa_amount_usd)+3).iterations(3);
+//const collision = d3.forceCollide().radius(8.5).iterations(1);
 const forceXstart = d3.forceX((d)=>width/2 ).strength(0.75)
 const forceYstart = d3.forceY((d)=>height/2 ).strength(0.75)
 const forceYreset = d3.forceY((d)=>height/2 )
 const forceXreset = d3.forceX((d)=>width/2 )
 
 const forceCollide = d3.forceCollide(3*rad).strength(0.05)//(d)=> radiusScale(d.Food)+2
-const center_force = d3.forceCenter(width / 2, height / 2).strength(0.2);
+const center_force = d3.forceCenter(width / 2, height / 2).strength(0.5);
 
 // set up force simulation    
 const simulation = d3.forceSimulation()
@@ -78,7 +78,7 @@ const simulation = d3.forceSimulation()
                         .append("circle")
                             .attr("class","need")
                             .attr("id",(d)=>d.Household)
-                            .attr("r",rad) //(d)=>radiusScale(d.Food)
+                            .attr("r",(d)=> radiusScale(d.remesa_amount_usd)+2) //(d)=>radiusScale(d.Food)
                             .attr("fill",first_color)//(d)=>colors[d.country]'
                             
     function ticked() {circles.attr("cx", d => d.x).attr("cy", d => d.y);}
@@ -95,7 +95,7 @@ const simulation = d3.forceSimulation()
       simulation
                     .force("x",forceXc)
                     .force("y",forceYreset.strength(0.75))
-                    .alphaTarget(0.1)
+                    .alphaTarget(0.15)
                     .restart()
           
           //reveal labels for countries 
@@ -122,7 +122,7 @@ const simulation = d3.forceSimulation()
 
     simulation.force("y",forceYsepLocation)
               .force("x",forceXreset.strength(0.75))
-              .alphaTarget(0.1)
+              .alphaTarget(0.15)
                   .restart()
                   
     circles.transition().attr("fill",(d)=> d.rural_urban ===1?'#4b8053':'#ab9267')             
@@ -136,10 +136,10 @@ const simulation = d3.forceSimulation()
     // define function to combine
     const combine =()=>{
             simulation
-                    .force("x",forceXreset.strength(0.8))
-                    .force("y",forceYreset.strength(0.8))
+                    .force("x",forceXreset.strength(0.9))
+                    .force("y",forceYreset.strength(0.9))
                     .force("r", null)
-                    .alphaTarget(0.25)
+                    .alphaTarget(0.2)
                     .restart()
                     
                     //.force("charge", d3.forceManyBody().strength(-20))
@@ -154,9 +154,9 @@ const food_amount = ()=>{
   
     const forceRFood = d3.forceRadial(d=> d.Food <=0 ? 40 : 450,x,y )
     simulation
-    .force("charge", d3.forceCollide().radius(9).iterations(1))
+    .force("charge", d3.forceCollide().radius((d)=> radiusScale(d.remesa_amount_usd)+3).iterations(3))
     .force("r",forceRFood.strength(0.3))
-    .force("charge", d3.forceManyBody().strength(-70))
+    .force("charge", d3.forceManyBody().strength(-90))
     .alphaTarget(0.1)
     .restart()
   
@@ -240,21 +240,34 @@ const educationExit = ()=>{
 const clothing = ()=>{
           const forceRClothing = d3.forceRadial(d=> d.ClothesandShoes >0 ? 400 : 10)
         
-          simulation.force("collide",d3.forceCollide().radius(9).iterations(1))
+          simulation.force("collide",d3.forceCollide().radius((d)=> radiusScale(d.remesa_amount_usd)+3).iterations(1))
                     .force("r",forceRClothing.strength(0.4))
                     .force("charge", d3.forceManyBody().strength(-90))
                     .alphaTarget(0.1)
                     .restart()
-        
 
-        
-          d3.selectAll('#Clothing_label').style('visibility','hidden')
-          circles.transition()
+        circles.transition()
                     .attr("fill",(d)=>d.ClothesandShoes>0?NeedColors.Clothing[0]:NeedColors.Clothing[1])
                      .duration(500)
         }
 const clothingExit = ()=>{
-          d3.selectAll('#Clothing_label').style('visibility','hidden')
+                combine()}
+
+const housing = ()=>{
+  const forceYhousing = d3.forceY(d=> {
+    if (d.Housing >0 || d.HousingRental >0|| d.HomePurchase>0){return height-height*0.65} 
+    else{return height-height*0.5}})
+
+  simulation.force("y",forceYhousing.strength(0.95))
+  .alphaTarget(0.1)
+    .restart()
+
+circles.transition()
+        .attr("fill",(d)=>{
+          if (d.Housing >0 || d.HousingRental >0 ||d.HomePurchase>0){return '#414141'} 
+          else{return '#d3d3d3'}})
+              .duration(500)}
+const housingExit = ()=>{
                 combine()}
 
 // Set up tool tip effect on Mouse enter and exit
@@ -310,14 +323,16 @@ function mouseOut(event, d){
      // instantiate the scrollama
 const scroller = scrollama();
 
-const EnterCallbacks =[combine,sepCountry,
+const EnterCallbacks =[combine,
+  sepCountry,
   sepLocation,
   combine,
   food_amount,
   utilities,
   health,
   education,
-  clothing
+  clothing,
+  housing
 ]
 const ExitCallbacks =[combine,
   CountriesExit,
@@ -327,14 +342,15 @@ const ExitCallbacks =[combine,
   utilitiesExit,
   healthExit,
   educationExit,
-  clothingExit
+  clothingExit,
+  housingExit
 ]
 // setup the instance, pass callback functions
 const steps = d3.selectAll(".step")
 scroller
   .setup({
     step: ".step",
-    offset: 0.5,
+    //offset: 0.5,
     //debug:true
   
   })
@@ -343,26 +359,15 @@ scroller
     //console.log(response)
     // steps.style("opacity",0.1)
      //d3.select(response.element).style("opacity",1)
-     console.log(response.index)
+     //console.log(response.index+" enter")
     if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
     
-    // if(response.index ===1){return sepCountry();}
-    // else if (response.index ===2) {return sepLocation() ;} 
-    // else if (response.index ===4) {return food_amount();} 
-    // else if (response.index==5){return utilities()}
-    // else if (response.index==6){return utilities()}
     })
     
   .onStepExit((response) => {
-    console.log(response.index)
+    //console.log(response.index+" exit")
     if (response.index<=ExitCallbacks.length-1 ){ExitCallbacks[response.index]()}
-    //console.log('exit: ')
-    //console.log(response)
-    // if(response.index ===1){return CountriesExit();}
-    // else if(response.index ===2){return LocationExit();}
-    // else if(response.index ===4) {return foodExit();}
-    // else if(response.index ===5) {return utilitiesExit();}
-    // { element, index, direction }
+    
   });
 
 // setup resize event
