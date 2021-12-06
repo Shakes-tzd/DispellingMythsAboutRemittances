@@ -301,7 +301,7 @@ function mouseOver(event, d){
     .attr('stroke-width', 2)
     .attr('stroke', 'black')
 
-    const RemitToIncomeRatio =(d.monthly_remesa_amount)/(d.avg_income_usd) 
+    const RemitToIncomeRatio =(d.remesa_amount_usd)/(d.avg_income_usd) 
     
     let RemitPCT = (RemitToIncomeRatio<=1)?Math.round(RemitToIncomeRatio*100):Math.round((RemitToIncomeRatio-1)*100)
 
