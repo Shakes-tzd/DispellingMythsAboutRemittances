@@ -19,7 +19,7 @@ header {
 }
 .introduction {
   display: flex;
-  align-items: flex-start;
+  align-content: space-between;
   flex-wrap: wrap;
   padding: 1rem;
   font-family: century-gothic, sans-serif;
@@ -31,14 +31,22 @@ header {
 } */
 
 .intro_img {
-  width: 60vw;
+  width: 50%;
+
   position: sticky;
   top: 0px;
   left: 0px;
 }
+.intro_image {
+  height: 95vh;
+  right: 20%;
+}
+.card_image {
+}
 .intro_txt {
-  width: 30vw;
-  padding-left: 1rem;
+  width: 50%;
+  padding-left: 5rem;
+  padding-right: 3rem;
 }
 .intro_txt2 {
   margin-top: 2rem;
