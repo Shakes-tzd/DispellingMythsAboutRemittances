@@ -32,6 +32,7 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
     edData = []
     houseData = []
     otherData = []
+    
     const findexpenses = alldata.map(d=>{
         let basic = {'avg_income_usd':d.avg_income_usd,
         'country': d.country,
@@ -71,7 +72,7 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
             Housecopy.housing = 1
             houseData.push(Housecopy)
         }
-          
+        console.log(otherData.length) 
     })
     
     
