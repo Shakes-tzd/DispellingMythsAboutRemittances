@@ -10,7 +10,9 @@ const NeedColors={
   'Utilities':['#8098B2','#8098B250'],
   'Health':['#86738C','#86738C50'],
   'Education':['#54A4AA','#54A4AA50'],
-  'Clothing':['#AB878A','#AB878A50']
+  'Clothing':['#AB878A','#AB878A50'],
+  'Housing':['#0B5A5F','#0B5A5F50'],
+  'Other':['#DAA520','#DAA52050']
 }
 
 const categories =['Guatemala', 'Honduras', 'El-Salvador']
@@ -90,11 +92,11 @@ const simulation = d3.forceSimulation()
       const forceXc = d3.forceX((d)=>{
         if(d.country ==='GT'){return width-0.6*width}
         else if (d.country ==='HND') {return width-0.5*width} 
-        else {return width-0.4*width }}).strength(0.9)
+        else {return width-0.4*width }}).strength(0.95)
       
       simulation
                     .force("x",forceXc)
-                    .force("y",forceYreset.strength(0.75))
+                    .force("y",forceYreset.strength(0.85))
                     .alphaTarget(0.15)
                     .restart()
           
@@ -174,11 +176,11 @@ const foodExit = ()=>{
 
 const utilities = ()=>{
   const forceXsepUtilities = d3.forceX((d)=>{
-    if(d.Utilities >0){return width-0.6*width} 
-    else {return width-0.4*width}}).strength(0.8)
+    if(d.Utilities >0){return width-0.5*width} 
+    else {return width-0.4*width}}).strength(0.9)
 
   simulation.force("x",forceXsepUtilities)
-                .force("y",forceYreset.strength(0.8))
+                .force("y",forceYreset.strength(0.9))
                 .alphaTarget(0.1)
                 .restart()
   
@@ -199,7 +201,7 @@ const health = ()=>{
     else {return height-height*0.55}}).strength(0.95)
 
     simulation.force("y",forceYsepHealth)
-              .force("x",forceXreset.strength(0.75))
+              .force("x",forceXreset.strength(0.8))
               .alphaTarget(0.1)
                 .restart()
       
@@ -218,10 +220,10 @@ const healthExit = ()=>{
 const education = ()=>{
   const forceXsepEducation = d3.forceX((d)=>{
     if(d.Education >0){return width-0.5*width} 
-    else {return width-0.4*width}}).strength(0.8)
+    else {return width-0.4*width}}).strength(0.9)
 
   simulation.force("x",forceXsepEducation)
-              .force("y",forceYreset.strength(0.8))
+              .force("y",forceYreset.strength(0.9))
               .alphaTarget(0.1)
               .restart()
               
@@ -252,11 +254,11 @@ const clothing = ()=>{
         }
 const clothingExit = ()=>{
                 combine()}
-
+//Housing
 const housing = ()=>{
   const forceYhousing = d3.forceY(d=> {
-    if (d.Housing >0 || d.HousingRental >0|| d.HomePurchase>0){return height-height*0.65} 
-    else{return height-height*0.5}})
+    if (d.Housing >0 || d.HousingRental >0|| d.HomePurchase>0){return height-height*0.6} 
+    else{return height-height*0.45}})
 
   simulation.force("y",forceYhousing.strength(0.95))
   .alphaTarget(0.1)
@@ -264,12 +266,29 @@ const housing = ()=>{
 
 circles.transition()
         .attr("fill",(d)=>{
-          if (d.Housing >0 || d.HousingRental >0 ||d.HomePurchase>0){return '#414141'} 
-          else{return '#d3d3d3'}})
+          if (d.Housing >0 || d.HousingRental >0 ||d.HomePurchase>0){return NeedColors.Housing[0]} 
+          else{return NeedColors.Housing[1]}})
               .duration(500)}
 const housingExit = ()=>{
                 combine()}
+//Other Expenses
+//'AgriculturalInputs', 'BusinessVentures', 'Saving','MigantsComittments', 'MigrationLoanDebt', 'OtherDebts', 'Other
+const other = ()=>{
+  const forceYother = d3.forceX(d=> {
+    if (d.AgriculturalInputs >0 || d.BusinessVentures >0|| d.Saving>0|| d.MigantsComittments>0|| d.MigrationLoanDebt>0|| d.OtherDebts>0){return width-0.4*width } 
+    else{return width-0.5*width}})
 
+  simulation.force("x",forceYother.strength(0.95))
+  .alphaTarget(0.1)
+    .restart()
+
+circles.transition()
+        .attr("fill",(d)=>{
+          if (d.AgriculturalInputs >0 || d.BusinessVentures >0|| d.Saving>0|| d.MigantsComittments>0|| d.MigrationLoanDebt>0|| d.OtherDebts>0){return NeedColors.Other[0]} 
+          else{return NeedColors.Other[1]}})
+              .duration(500)}
+const otherExit = ()=>{
+                combine()}
 // Set up tool tip effect on Mouse enter and exit
 svg.selectAll('circle')
 .on('mouseover', mouseOver)
@@ -277,12 +296,12 @@ svg.selectAll('circle')
 
 function mouseOver(event, d){
     d3.select(this)
-    .transition('mouseover').duration(1000)
+    .transition('mouseover').duration(500)
     .attr('opacity', 1)
-    //.attr('stroke-width', 2)
-    //.attr('stroke', 'black')
+    .attr('stroke-width', 2)
+    .attr('stroke', 'black')
 
-    const RemitToIncomeRatio =(d.monthly_remesa_amount)/(d.avg_income_usd) 
+    const RemitToIncomeRatio =(d.remesa_amount_usd)/(d.avg_income_usd) 
     
     let RemitPCT = (RemitToIncomeRatio<=1)?Math.round(RemitToIncomeRatio*100):Math.round((RemitToIncomeRatio-1)*100)
 
@@ -307,7 +326,7 @@ function mouseOut(event, d){
     tooldiv.style('visibility','hidden')
   
     d3.select(this)
-        .transition('mouseout').duration(1000)
+        .transition('mouseout').duration(500)
         .attr('opacity', 1)
         .attr('stroke-width', 0)}
   
@@ -332,7 +351,8 @@ const EnterCallbacks =[combine,
   health,
   education,
   clothing,
-  housing
+  housing,
+  other
 ]
 const ExitCallbacks =[combine,
   CountriesExit,
@@ -343,7 +363,8 @@ const ExitCallbacks =[combine,
   healthExit,
   educationExit,
   clothingExit,
-  housingExit
+  housingExit,
+  otherExit
 ]
 // setup the instance, pass callback functions
 const steps = d3.selectAll(".step")
@@ -359,7 +380,7 @@ scroller
     //console.log(response)
     // steps.style("opacity",0.1)
      //d3.select(response.element).style("opacity",1)
-     //console.log(response.index+" enter")
+     console.log(response.index+" enter")
     if (response.index<=EnterCallbacks.length-1 ){EnterCallbacks[response.index]()}
     
     })

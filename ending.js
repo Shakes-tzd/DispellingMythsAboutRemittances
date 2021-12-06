@@ -5,13 +5,17 @@ let height2 = box2.clientHeight;
 // console.log(box2.clientHeight)
 
 const expenseCenters = {
-    "Education": {x: 1.7*width2/10 , y: height2/3,'color':'#54A4AA' },
-    "Clothing": {x: 3 * width2/10, y: height2/3,'color': '#AB878A'},
-    "Utilities": {x: 6 * width2/10, y: height2/3,'color': '#8098B2'},
-    "Health": {x: 4.5* width2/10, y: height2/3 ,'color':'#86738C'},
+    "Other": {x: width2/10 , y: height2/3,'color':'#DAA520' },
+    "Housing": {x: 2.1*width2/10 , y: height2/3,'color':'#0B5A5F' },
+    "Education": {x: 3.2*width2/10 , y: height2/3,'color':'#54A4AA' },
+    "Clothing": {x: 4.25 * width2/10, y: height2/3,'color': '#AB878A'},
+    "Utilities": {x: 6.75 * width2/10, y: height2/3,'color': '#8098B2'},
+    "Health": {x: 5.5* width2/10, y: height2/3 ,'color':'#86738C'},
     "Food": {x: 8 * width2/10, y: height2/3,'color':'#AD98B4' }  
 };
 const expenses = [
+    {ex_name:"Other",x: expenseCenters.Other.x , y: expenseCenters.Other.y,'color':expenseCenters.Other.color },
+    {ex_name:"Housing",x: expenseCenters.Housing.x , y: expenseCenters.Housing.y,'color':expenseCenters.Housing.color },
     {ex_name:"Education",x: expenseCenters.Education.x , y: expenseCenters.Education.y,'color':expenseCenters.Education.color },
     {ex_name:"Clothing",x: expenseCenters.Clothing.x , y: expenseCenters.Clothing.y,'color':expenseCenters.Clothing.color},
     {ex_name:"Utilities",x: expenseCenters.Utilities.x , y: expenseCenters.Utilities.y,'color':expenseCenters.Utilities.color},
@@ -26,6 +30,9 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
     utilData = []
     clothData = []
     edData = []
+    houseData = []
+    otherData = []
+    
     const findexpenses = alldata.map(d=>{
         let basic = {'avg_income_usd':d.avg_income_usd,
         'country': d.country,
@@ -55,10 +62,21 @@ d3.csv("data/MostBasicNeeds.csv", d3.autoType).then((alldata)=>{
             Edcopy.education = d.Education
             edData.push(Edcopy)
         }
+        if (d.AgriculturalInputs >0 || d.BusinessVentures >0|| d.Saving>0|| d.MigantsComittments>0|| d.MigrationLoanDebt>0|| d.OtherDebts>0){
+        const Othercopy = Object.assign({}, basic);
+        Othercopy.other = 1
+        otherData.push(Othercopy)} 
+
+        if(d.Housing >0 || d.HousingRental >0 ||d.HomePurchase>0){
+            const Housecopy = Object.assign({}, basic);
+            Housecopy.housing = 1
+            houseData.push(Housecopy)
+        }
+        console.log(otherData.length) 
     })
     
     
-const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData)
+const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData,houseData,otherData)
 //console.log(nodes2)
 
 
@@ -79,6 +97,8 @@ const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData)
                 else if ('utilities' in d){return expenseCenters.Utilities.x}
                 else if ('education' in d){return expenseCenters.Education.x}
                 else if ('clothing' in d){return expenseCenters.Clothing.x}
+                else if ('other' in d){return expenseCenters.Other.x}
+                else if ('housing' in d){return expenseCenters.Housing.x}
                 else {return width2-0.4*width2 }}).strength(0.5)
               
     const simulation2 = d3.forceSimulation(nodes2)
@@ -99,7 +119,10 @@ const nodes2 = [].concat(foodData,healthData,utilData,clothData,edData)
                                 else if ('health' in d){return expenseCenters.Health.color}
                                 else if ('utilities' in d){return expenseCenters.Utilities.color}
                                 else if ('education' in d){return expenseCenters.Education.color}
-                                else if ('clothing' in d){return expenseCenters.Clothing.color}})
+                                else if ('clothing' in d){return expenseCenters.Clothing.color}
+                                else if ('other' in d){return expenseCenters.Other.color}
+                                else if ('housing' in d){return expenseCenters.Housing.color}
+                            })
                             .attr('r',r)
 
     simulation2.on("tick", function() {
@@ -129,6 +152,49 @@ const labels = svg2.selectAll("g")
         .attr('dominant-baseline','middle')
         .attr('text-anchor','middle')  
         .attr('fill','#ffffff')  
+
+svg2.selectAll('circle')
+.on('mouseover', mouseOver)
+.on('mouseout', mouseOut)
+
+function mouseOver(event, d){
+    d3.select(this)
+    .transition('mouseover').duration(500)
+    .attr('opacity', 1)
+    .attr('stroke-width', 2)
+    .attr('stroke', 'black')
+
+    const RemitToIncomeRatio =(d.remesa_amount_usd)/(d.avg_income_usd) 
+    
+    let RemitPCT = (RemitToIncomeRatio<=1)?Math.round(RemitToIncomeRatio*100):Math.round((RemitToIncomeRatio-1)*100)
+
+    
+
+    d3.select(event.target).style("cursor", "pointer");
+
+    tooldiv.style('left', (event.pageX )+ 'px')
+    .style('top', ( event.pageY) + 'px')
+    .style('visibility','visible')
+    .style('display', 'inline-block')
+    .html(`<b>Country:</b> ${d.country}
+        <br> <b>Location:</b> ${d.rural_urban ==1? 'Rural' :'Urban'}
+        <br> <b>Monthly Remittance Income:</b> USD$ ${Math.round(d.monthly_remesa_amount* 100) / 100} 
+        <br> <b>Household Income:</b> USD$ ${Math.round(d.avg_income_usd* 100) / 100}
+        <br> <b>Household Remittances to Household Income Ratio:</b> ${Math.round(RemitToIncomeRatio * 100) / 100}
+        `)
+        }
+//         <br> <b>Household Remittances to Household Income Ratio:</b> ${RemitToIncomeRatio<=1? 'Remittances make up '+RemitPCT+'% of the Household Income' :'Remittances are '+RemitPCT+'% more than the Household Income'}
+
+function mouseOut(event, d){
+    tooldiv.style('visibility','hidden')
+    
+    d3.select(this)
+        .transition('mouseout').duration(500)
+        .attr('opacity', 1)
+        .attr('stroke-width', 0)}
+    
+
+
  
   });
 

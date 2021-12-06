@@ -17,13 +17,19 @@ header {
   width: 100vw;
   height: 100vh;
 }
+img {
+  display: inline-block;
+  max-width: 100%;
+  /* align-self: center; */
+}
 .introduction {
   display: flex;
-  align-content: space-between;
-  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  align-items: start;
+  /* flex-wrap: wrap; */
   padding: 1rem;
-  font-family: century-gothic, sans-serif;
-  font-size: 2.5vmin;
+  /* overflow: auto;
+  position: relative; */
 }
 
 /* .inner-grid {
@@ -31,21 +37,27 @@ header {
 } */
 
 .intro_img {
-  width: 50%;
-
+  /* width: 50%; */
+  flex: 0 1 60%;
+  position: -webkit-sticky;
   position: sticky;
   top: 0px;
+  align-self: flex-start;
   left: 0px;
 }
 .intro_image {
-  height: 95vh;
-  right: 20%;
+  height: auto;
+  margin-top: 1rem;
+
+  /* right: 50%; */
 }
 
 .intro_txt {
-  width: 50%;
-  padding-left: 5rem;
-  padding-right: 3rem;
+  width: 40%;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  font-family: century-gothic, sans-serif;
+  font-size: 2.5vmin;
 }
 .intro_txt2 {
   margin-top: 2rem;
@@ -99,18 +111,16 @@ strong {
   min-height: 30rem;
   font-family: century-gothic, sans-serif;
 }
-img {
-  display: block;
-  max-width: 100%;
-  align-self: center;
-}
+
 .conclusion {
   /* margin: 2rem; */
-  display: flex;
+  /* display: flex; */
   position: sticky;
   top: 0px;
   left: 0px;
   background-color: white;
+  height: 27rem;
+  /* padding-top: 1rem; */
 }
 .hist {
   height: 25rem;
@@ -311,6 +321,18 @@ h3 {
 }
 #education_intro {
   color: #54a4aa;
+}
+#housing {
+  background-color: #0b5a5f80;
+}
+#housing_intro {
+  color: #0b5a5f;
+}
+#other {
+  background-color: #daa520;
+}
+#other_intro {
+  color: #daa520;
 }
 #rural {
   background-color: #4b8053;
