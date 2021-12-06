@@ -11,7 +11,7 @@ const NeedColors={
   'Health':['#86738C','#86738C50'],
   'Education':['#54A4AA','#54A4AA50'],
   'Clothing':['#AB878A','#AB878A50'],
-  'Housing':['#0B5A5F','#0B5A5F50'],
+  'Housing':['#0B5A5F80','#0B5A5F20'],
   'Other':['#DAA520','#DAA52050']
 }
 

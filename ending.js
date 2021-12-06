@@ -6,7 +6,7 @@ let height2 = box2.clientHeight;
 
 const expenseCenters = {
     "Other": {x: width2/14 , y: height2/3,'color':'#DAA520' },
-    "Housing": {x: 1.5*width2/10 , y: height2/3,'color':'#0B5A5F' },
+    "Housing": {x: 1.5*width2/10 , y: height2/3,'color':'#0B5A5F80' },
     "Education": {x: 2.3*width2/10 , y: height2/3,'color':'#54A4AA' },
     "Clothing": {x: 3.25 * width2/10, y: height2/3,'color': '#AB878A'},
     "Utilities": {x: 6.4 * width2/10, y: height2/3,'color': '#8098B2'},
